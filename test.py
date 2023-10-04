@@ -9,10 +9,10 @@ if not ser.connect():
 else:
     try:
         # Specify the slave ID (address)
-        slave_id = 1  # Replace with the actual slave ID of your device
+        slave_id = 16  # Replace with the actual slave ID of your device
 
         # Specify the Modbus register to read (e.g., register number 0)
-        register_address = 0
+        register_address = 3
 
         # Read a single holding register
         response = ser.read_holding_registers(register_address, 1, unit=slave_id)
