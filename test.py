@@ -1,7 +1,7 @@
 from pymodbus.client import ModbusSerialClient
 
 # Define the serial port (ttyUSB0) and baudrate
-ser = ModbusSerialClient(method='rtu', port='/dev/ttyUSB0', baudrate=9600)
+ser = ModbusSerialClient(method='rtu', port='/dev/ttyUSB0', baudrate=9600, parity='E', stopbits=1, bytestize=8, timeout=5.0)
 
 # Ensure the client is connected
 if not ser.connect():
