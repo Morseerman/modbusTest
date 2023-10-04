@@ -9,20 +9,20 @@ if not ser.connect():
 else:
     try:
         # Specify the slave ID (address)
-        slave_id = 16  # Replace with the actual slave ID of your device
+        slave_id = 15  # Replace with the actual slave ID of your device
 
         # Specify the Modbus register to read (e.g., register number 0)
-        register_address = 3
+        register_address = 0x0255
 
         # Read a single holding register
-        response = ser.read_holding_registers(register_address, 1, unit=slave_id)
+        response = ser.read_holding_registers(register_address, 1, slave_id)
 
         if response.isError():
             print(f"Error response: {response}")
         else:
             # Extract the value from the response
-            value = response.registers[0]
-            print(f"Register {register_address}: {value}")
+            for value in response.registers:
+                print(f"Register {register_address}: {value}")
 
     except Exception as e:
         print(f"An error occurred: {str(e)}")
