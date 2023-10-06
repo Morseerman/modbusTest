@@ -17,8 +17,14 @@ else:
         #Specify the number of coils to read
         count = 1
 
+        # Specify the value you want to write
+        value_to_write = 80  
+
         # Read a single holding register
-        response = ser.read_holding_registers(register_address, count, slave_id)
+        #response = ser.read_holding_registers(register_address, count, slave_id)
+        
+        # Write to a single holding register
+        response = ser.write_register(register_address, value_to_write, unit=slave_id)
 
         if response.isError():
             print(f"Error response: {response}") 
