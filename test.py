@@ -31,7 +31,7 @@ else:
         else:
             # Extract the value from the response
             print(f"Successfully wrote {value_to_write} to register {register_address}")
-
+            print(f"Raw response: {response}")
 
     except Exception as e:
         print(f"An error occurred: {str(e)}")
