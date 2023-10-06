@@ -14,6 +14,9 @@ else:
         # Specify the Modbus register to read (e.g., register number 0)
         register_address = 0x0255
 
+        #Specify the number of coils to read
+        count = 1
+
         # Read a single holding register
         response = ser.read_holding_registers(register_address, count, slave_id)
 
