@@ -30,8 +30,8 @@ else:
             print(f"Error response: {response}") 
         else:
             # Extract the value from the response
-            for value in response.registers:
-                print(f"Register {register_address}: {value}")
+            print(f"Successfully wrote {value_to_write} to register {register_address}")
+
 
     except Exception as e:
         print(f"An error occurred: {str(e)}")
