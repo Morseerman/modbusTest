@@ -14,11 +14,14 @@ else:
         # Specify the Modbus register to read (e.g., register number 0)
         register_address = 3
 
+        # Specify the number of coils to read
+        count = 1
+
         # Read a single holding register
-        response = ser.read_holding_registers(register_address, 1, unit=slave_id)
+        response = ser.read_holding_registers(register_address, count, slave_id)
 
         if response.isError():
-            print(f"Error response: {response}")
+            print(f"Error response: {response}") 
         else:
             # Extract the value from the response
             value = response.registers[0]
