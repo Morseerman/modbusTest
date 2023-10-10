@@ -12,19 +12,20 @@ else:
         slave_id = 15  # Replace with the actual slave ID of your device
 
         # Specify the Modbus register to read (e.g., register number 0)
-        register_address = 0x0255
+        register_address = 0x1811
 
         #Specify the number of coils to read
         count = 1
 
         # Specify the value you want to write
-        value_to_write = 80  
+        value_to_write = 5  #when writing miltpiple vales, the fiest digit is the multiplier
 
         # Read a single holding register
         #response = ser.read_holding_registers(register_address, count, slave_id)
         
         # Write to a single holding register
-        response = ser.write_register(register_address, value_to_write, unit=slave_id)
+        response = ser.write_register(register_address, value_to_write, slave_id)
+        
 
         if response.isError():
             print(f"Error response: {response}") 
