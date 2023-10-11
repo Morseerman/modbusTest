@@ -25,7 +25,9 @@ if not ser.connect():
     print("Failed to connect to the Modbus device.")
 else:
     try:
-        write(0x1803, degrees_to_steps())
+        degrees = 90
+
+        write(0x1803, degrees_to_steps(degrees))
         write(0x79, 8) #This is the START command
 
     except Exception as e:
