@@ -30,6 +30,7 @@ def test_small_increments():
         write(0x1803, degrees_to_steps(angle))
         write(0x79, 8) #This is the START command
         time.sleep(0.2)
+        
 
 
 
