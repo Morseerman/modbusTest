@@ -1,3 +1,4 @@
+import time
 from pymodbus.client import ModbusSerialClient
 
 def write(register_address, value_to_write):
@@ -14,6 +15,23 @@ def write(register_address, value_to_write):
 
 def degrees_to_steps(degrees):
     return round(degrees * 100)
+
+def test_small_increments():
+    angle = 0
+    increment = 0.01
+
+    write(0x1803, degrees_to_steps(angle))
+    write(0x79, 8) #This is the START command
+
+    time.sleep(5)
+
+    while angle < 90:
+        angle = angle + increment
+        write(0x1803, degrees_to_steps(angle))
+        write(0x79, 8) #This is the START command
+        time.sleep(0.2)
+
+
 
 #-----------------------------------------------------------------------------------------------------------
 
