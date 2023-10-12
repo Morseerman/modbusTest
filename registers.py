@@ -3958,19 +3958,20 @@ master_table = {
 }
 
 client = read.setup_serial_connection()
-read.read_register(client, 0x1803)
+#read.read_register(client, 0x1803)
 
-# for table_ref, table_data in master_table.items():
-#     table_name = table_data["Table Name"]
-#     print(f"\nTable: {table_ref} {table_name}")
+for table_ref, table_data in master_table.items():
+    table_name = table_data["Table Name"]
+    print(f"\nTable: {table_ref} {table_name}")
 
-#     for register in table_data["Registers"]:
-#         name = register["Name"]
-#         upper = register["Upper"]
-#         lower = register["Lower"]
-#         upper_hex = register["UpperHex"]
-#         lower_hex = register["LowerHex"]
-#         reg_desc = register["Reg Desc"]
-#         default_value = register["DefaultValue"]
+    for register in table_data["Registers"]:
+        name = register["Name"]
+        upper = register["Upper"]
+        lower = register["Lower"]
+        upper_hex = register["UpperHex"]
+        lower_hex = register["LowerHex"]
+        reg_desc = register["Reg Desc"]
+        default_value = register["DefaultValue"]
 
-#         print(f" {upper:4} {lower:4} | h{upper_hex:4} h{lower_hex:4}| {name:70}| Default: {default_value}")
+        value = read.read_register(client, lower)
+        print(f" {upper:4} {lower:4} | h{upper_hex:4} h{lower_hex:4}| {name:70}| Default: {default_value:10} | Value: {value}")
