@@ -8,10 +8,10 @@ if client.connect():
     print("Connected Succesfully")
 
     # Specify the register address to read from
-    register_address = 0x024C
+    register_address = 0x01803
 
     # Read from the register
-    response = client.read_holding_registers(register_address, 50, 15)
+    response = client.read_holding_registers(register_address, 1, 15)
 
     # Check if the read operation was successful
     if not response.isError():
