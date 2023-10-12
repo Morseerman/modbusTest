@@ -10,10 +10,10 @@ def write(register_address, value_to_write):
         else:
             # Extract the value from the response
             print(f"Successfully wrote {value_to_write} to register {register_address}")
-            print(f"Raw response: {response}")
+           
 
 def degrees_to_steps(degrees):
-    return degrees * 100
+    return round(degrees * 100)
 
 #-----------------------------------------------------------------------------------------------------------
 
@@ -25,9 +25,8 @@ if not ser.connect():
     print("Failed to connect to the Modbus device.")
 else:
     try:
-        degrees = 90
+        degrees = 100.09
 
-        write(0x385, 0)
         write(0x1803, degrees_to_steps(degrees))
         write(0x79, 8) #This is the START command
 
