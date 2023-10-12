@@ -28,7 +28,7 @@ def read_register(client, register_address):
             print(f"Value in register {register_address} = {register}")
             register_address = register_address + 1
 
-        value = (response[0] << 15) | response[1]
+        value = (response.registers[0] << 15) | response.registers[1]
         print(f"val: {value}")
     else:
         print(f"Error reading register {register_address}")
