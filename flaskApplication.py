@@ -3,6 +3,7 @@ from pymodbus.client import ModbusSerialClient
 import time
 
 app = Flask(__name__)
+app.static_folder = 'static'
 
 ser = ModbusSerialClient(method='rtu', port='/dev/ttyUSB0', baudrate=9600, parity='E', stopbits=1, bytesize=8, timeout=5.0)
 
