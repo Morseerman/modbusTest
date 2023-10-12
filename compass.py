@@ -1,8 +1,7 @@
 import serial
 
-# Replace '/dev/ttyUSB1' with the actual port name
 serial_port = '/dev/ttyUSB1'
-baud_rate = 9600  # Match this to your compass's baud rate
+baud_rate = 4800  
 
 try:
     # Open the serial port
