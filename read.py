@@ -35,3 +35,6 @@ def read_register(client, register_address):
     return value
     # Close the Modbus connection
     client.close()
+
+
+read_register(setup_serial_connection(), 0x65)
