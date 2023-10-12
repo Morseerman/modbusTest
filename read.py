@@ -18,7 +18,7 @@ def setup_serial_connection():
 def read_register(client, register_address):
 
     # Read from the register
-    response = client.read_holding_registers(register_address, 2, 15)
+    response = client.read_holding_registers(register_address, 40, 15)
 
     # Check if the read operation was successful
     if not response.isError():
@@ -27,6 +27,7 @@ def read_register(client, register_address):
             #register_value = response.registers[0]
             #print(f"Value in register {register_address} = {register}")
             register_address = register_address + 1
+            print(f"Register Adress: {register_address},   Value: {register}")
 
         value = (response.registers[0] << 16) | response.registers[1]
         #print(f"r0: {response.registers[0]} r1: {response.registers[1]} val: {value}")
@@ -37,4 +38,4 @@ def read_register(client, register_address):
     client.close()
 
 
-read_register(setup_serial_connection(), 0x65)
+read_register(setup_serial_connection(), 0x1800)
