@@ -26,8 +26,8 @@ def read_register(client, register_address):
 
             #register_value = response.registers[0]
             #print(f"Value in register {register_address} = {register}")
-            register_address = register_address + 1
             print(f"Register Address: {register_address},   Value: {register}")
+            register_address = register_address + 1
 
         value = (response.registers[0] << 16) | response.registers[1]
         #print(f"r0: {response.registers[0]} r1: {response.registers[1]} val: {value}")
