@@ -4,7 +4,7 @@ from pymodbus.client import ModbusSerialClient
 def write(register_address, value_to_write):
         
         # Write to a single holding register
-        response = ser.write_register(register_address, value_to_write, 15)
+        response = ser.write_register(register_address, value_to_write, 14)
 
         if response.isError():
             print(f"Error response: {response}") 
@@ -30,7 +30,7 @@ def test_small_increments():
         write(0x1803, degrees_to_steps(angle))
         write(0x79, 8) #This is the START command
         time.sleep(0.2)
-
+        
 
 
 
@@ -44,11 +44,9 @@ if not ser.connect():
     print("Failed to connect to the Modbus device.")
 else:
     try:
-        degrees = 90
-
-        write(0x1801, 1)
-        #write(0x1803, degrees_to_steps(degrees))
-        #write(0x79, 8) #This is the START command
+        degrees = 0
+        write(0x1803, degrees_to_steps(degrees))
+        write(0x79, 8) #This is the START command
 
     except Exception as e:
         print(f"An error occurred: {str(e)}")

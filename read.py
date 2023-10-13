@@ -18,24 +18,25 @@ def setup_serial_connection():
 def read_register(client, register_address):
 
     # Read from the register
-    response = client.read_holding_registers(register_address, 40, 15)
+    response = client.read_holding_registers(register_address, 1, 15)
 
     # Check if the read operation was successful
+    base_address = 0
     if not response.isError():
         for register in response.registers:
 
-            #register_value = response.registers[0]
-            #print(f"Value in register {register_address} = {register}")
-            print(f"Register Address: {register_address},   Value: {register}")
+            
+            print(f"Register Address: {register_address} (+{base_address}),   Value: {register}")
             register_address = register_address + 1
+            base_address = base_address + 1
 
-        value = (response.registers[0] << 16) | response.registers[1]
+        #value = (response.registers[0] << 16) | response.registers[1]
         #print(f"r0: {response.registers[0]} r1: {response.registers[1]} val: {value}")
     else:
         print(f"Error reading register {register_address}")
-    return value
-    # Close the Modbus connection
     client.close()
+    
+    # Close the Modbus connection
 
 
-read_register(setup_serial_connection(), 0x1800)
+read_register(setup_serial_connection(), 0x1803)
