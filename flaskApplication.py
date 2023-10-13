@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify, render_template
 from pymodbus.client import ModbusSerialClient
 import time
 import write
+import read
 
 app = Flask(__name__)
 app.static_folder = 'static'
@@ -22,13 +23,13 @@ def get_position():
     if not ser.connect():
         return jsonify(error="Failed to connect to the Modbus device.")
 
-    register_address = 0x01803
-    response = ser.read_holding_registers(register_address, 1, 15)
+   
+    response = read.read_motor_position(ser)
 
     if not response.isError():
         return jsonify(position=response.registers[0])
     else:
-        return jsonify(error=f"Error reading register {register_address}")
+        return jsonify(error=f"Error reading register {0x1803}")
 
 @app.route('/set_position', methods=['POST'])
 def set_position():
