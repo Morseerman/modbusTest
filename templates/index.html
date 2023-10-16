@@ -24,7 +24,7 @@
                 url: '/get_position',
                 method: 'GET',
                 success: function(data) {
-                    if (data.position) {
+                    if (data.position !== undefined && data.position !== null) {
                         $('#position').text(`Position: ${data.position}`);
                     } else if (data.error) {
                         $('#position').text(`Error: ${data.error}`);
