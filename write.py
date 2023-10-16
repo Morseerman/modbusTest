@@ -44,7 +44,7 @@ if not ser.connect():
     print("Failed to connect to the Modbus device.")
 else:
     try:
-        degrees = 0
+        degrees = 180
         write(0x1803, degrees_to_steps(degrees))
         write(0x79, 8) #This is the START command
 
