@@ -1,42 +1,24 @@
 from pymodbus.client import ModbusSerialClient
 
-
-def setup_serial_connection():
-
-    # Create a Modbus serial client
- 
-    ser = ModbusSerialClient(method='rtu', port='/dev/ttyUSB0', baudrate=9600, parity='E', stopbits=1, bytestize=8, timeout=5.0)
-
-    # Connect to the Modbus device
-    if ser.connect():
-        print("Connected Succesfully")
-    else:
-        print("Failed to connect to the Modbus device.")
-
-    return ser
-
-def read_registers(ser, register_address):
+def read_registers(register_address, motor_id):
 
     # Read from the register
-    response = ser.read_holding_registers(register_address, 1, 15)
+    response = ser.read_holding_registers(register_address, 1, motor_id)
 
     # Check if the read operation was successful
-    base_address = 0
-    if not response.isError():
-        for register in response.registers:
-
-            
-            print(f"Register Address: {register_address} (+{base_address}),   Value: {register}")
-            register_address = register_address + 1
-            base_address = base_address + 1
-
+    if response.isError():
+         print(f"Error reading register {register_address}")
     else:
-        print(f"Error reading register {register_address}")
+        #Reads all registers
+        for register in response.registers:
+            print(f"Register Address: {register_address} Value: {register}")
+            register_address = register_address + 1
+
     ser.close()
     
-def read_motor_position(client):
+def read_motor_position(client, motor_id):
       # Read from the register
-    response = client.read_holding_registers(0x1803, 1, 15)
+    response = client.read_holding_registers(0x1803, 1, motor_id)
 
     # Check if the read operation was successful
     if not response.isError():           
@@ -47,5 +29,14 @@ def read_motor_position(client):
     client.close()
     return response.register[0]
 
+#-----------------------------------------------------------------------------------------------------------
+#                                               Setup
 
-read_registers(setup_serial_connection(), 0x1803)
+# Create a Modbus serial client
+ser = ModbusSerialClient(method='rtu', port='/dev/ttyUSB0', baudrate=9600, parity='E', stopbits=1, bytestize=8, timeout=5.0)
+
+# Connect to the Modbus device
+if ser.connect():
+    print("Connected Succesfully")
+else:
+    print("Failed to connect to the Modbus device.")
