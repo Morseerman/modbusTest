@@ -1,6 +1,5 @@
 from flask import Flask, request, jsonify, render_template
 from pymodbus.client import ModbusSerialClient
-import time
 import motor_controller
 import read
 
@@ -15,7 +14,7 @@ def index():
 
 @app.route('/get_position')
 def get_position():  
-    response = ser.read_holding_registers(0x1803, 1, 14)
+    response = read.read_motor_position
 
     if not response.isError():        
         return jsonify(position=response.registers[0] / 100)   
