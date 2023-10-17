@@ -14,7 +14,6 @@ def read_registers(register_address, number_of_registers, motor_id):
             print(f"Register Address: {register_address} Value: {register}")
             register_address = register_address + 1
 
-    ser.close()
     return response
     
 def read_motor_position(motor_id):
