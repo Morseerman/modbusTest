@@ -14,6 +14,7 @@ def read_registers(register_address, number_of_registers, motor_id):
             print(f"Register Address: {register_address} Value: {register}")
             register_address = register_address + 1
 
+
     return response
     
 def read_motor_position(motor_id):
@@ -34,10 +35,10 @@ def read_motor_position(motor_id):
 #                                               Setup
 
 # Create a Modbus serial client
-# ser = ModbusSerialClient(method='rtu', port='/dev/ttyUSB0', baudrate=9600, parity='E', stopbits=1, bytestize=8, timeout=5.0)
+ser = ModbusSerialClient(method='rtu', port='/dev/ttyUSB0', baudrate=9600, parity='E', stopbits=1, bytestize=8, timeout=5.0)
 
-# # Connect to the Modbus device
-# if ser.connect():
-#     print("Connected Succesfully")
-# else:
-#     print("Failed to connect to the Modbus device.")
+# Connect to the Modbus device
+if ser.connect():
+    print("Connected Succesfully")
+else:
+    print("Failed to connect to the Modbus device.")
