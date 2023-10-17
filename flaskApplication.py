@@ -35,15 +35,15 @@ def get_position():
 def set_position():
     try:
         # Get the 'position' field from the posted form data
-        degrees = float(request.form.get('position'))
+        angle = float(request.form.get('position'))
         
         if not ser.connect():
             return jsonify(status="error", message="Failed to connect to the Modbus device.")
 
         # Write the provided angle and execute the START command
-        motor_controller.move_motor(180, 14)
+        motor_controller.move_motor(angle, 14)
         
-        return jsonify(status="success", message=f"Set motor angle to {degrees} degrees")
+        return jsonify(status="success", message=f"Set motor angle to {angle} degrees")
 
     except Exception as e:
         return jsonify(status="error", message=str(e))
