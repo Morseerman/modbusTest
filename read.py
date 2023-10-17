@@ -5,20 +5,20 @@ def setup_serial_connection():
 
     # Create a Modbus serial client
  
-    client = ModbusSerialClient(method='rtu', port='/dev/ttyUSB0', baudrate=9600, parity='E', stopbits=1, bytestize=8, timeout=5.0)
+    ser = ModbusSerialClient(method='rtu', port='/dev/ttyUSB0', baudrate=9600, parity='E', stopbits=1, bytestize=8, timeout=5.0)
 
     # Connect to the Modbus device
-    if client.connect():
+    if ser.connect():
         print("Connected Succesfully")
     else:
         print("Failed to connect to the Modbus device.")
 
-    return client
+    return ser
 
-def read_registers(client, register_address):
+def read_registers(ser, register_address):
 
     # Read from the register
-    response = client.read_holding_registers(register_address, 1, 15)
+    response = ser.read_holding_registers(register_address, 1, 15)
 
     # Check if the read operation was successful
     base_address = 0
@@ -32,7 +32,7 @@ def read_registers(client, register_address):
 
     else:
         print(f"Error reading register {register_address}")
-    client.close()
+    ser.close()
     
 def read_motor_position(client):
       # Read from the register

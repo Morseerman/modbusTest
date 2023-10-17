@@ -1,10 +1,10 @@
 import time
 from pymodbus.client import ModbusSerialClient
 
-def write_to_register(register_address, value_to_write):
+def write_to_register(register_address, value_to_write, motor_id):
         
         # Write to a single holding register
-        response = ser.write_register(register_address, value_to_write, 14)
+        response = ser.write_register(register_address, value_to_write, motor_id)
 
         if response.isError():
             print(f"Error response: {response}") 
@@ -24,6 +24,8 @@ def close_server():
 # Define the serial port (ttyUSB0) and baudrate
 ser = ModbusSerialClient(method='rtu', port='/dev/ttyUSB0', baudrate=9600, parity='E', stopbits=1, bytestize=8, timeout=5.0)
 
-# Ensure the client is connected
-if not ser.connect():
+# Connect to the Modbus device
+if ser.connect():
+    print("Connected Succesfully")
+else:
     print("Failed to connect to the Modbus device.")

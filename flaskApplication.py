@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify, render_template
 from pymodbus.client import ModbusSerialClient
 import time
-import write
+import motor_controller
 
 app = Flask(__name__)
 app.static_folder = 'static'
@@ -41,8 +41,7 @@ def set_position():
             return jsonify(status="error", message="Failed to connect to the Modbus device.")
 
         # Write the provided angle and execute the START command
-        write.write(0x1803, degrees_to_steps(degrees))
-        write.write(0x79, 8) # This is the START command
+        motor_controller.move_motor(180, 14)
         
         return jsonify(status="success", message=f"Set motor angle to {degrees} degrees")
 
