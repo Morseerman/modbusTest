@@ -8,13 +8,6 @@ app.static_folder = 'static'
 
 # ser = ModbusSerialClient(method='rtu', port='/dev/ttyUSB0', baudrate=9600, parity='E', stopbits=1, bytestize=8, timeout=5.0)
 
-# Connect to the Modbus device
-if ser.connect():
-    print("Connected Succesfully")
-else:
-    print("Failed to connect to the Modbus device.")
-
-
 @app.route('/')
 def index():
     return render_template('index.html')
