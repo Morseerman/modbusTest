@@ -29,3 +29,4 @@ if ser.connect():
     print("Connected Succesfully")
 else:
     print("Failed to connect to the Modbus device.")
+    
