@@ -12,9 +12,7 @@ def move_motor(angle, motor_id):
     except Exception as e:
         print(f"An error occurred: {str(e)}")
 
-    finally:
-        # Close the Modbus connection
-        write.close_server()
+   
 
 def test_small_increments():
     angle = 0
