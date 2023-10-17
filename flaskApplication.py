@@ -14,27 +14,27 @@ def index():
 
 @app.route('/get_position')
 def get_position():  
-    response = read.read_motor_position(14)
+    response_14 = read.read_motor_position(14)
+    response_15 = read.read_motor_position(15)
        
-    return jsonify(position=response / 100)   
-
+    return jsonify(motor_14_position=response_14 / 100, motor_15_position=response_15 / 100)    
 
 @app.route('/set_position', methods=['POST'])
 def set_position():
     try:
-        # Get the 'position' field from the posted form data
         angle = float(request.form.get('position'))
+        motor_id = int(request.form.get('motor_id'))
 
-        motor_controller.move_motor(angle, 14)
+        if motor_id not in [14, 15]:
+            return jsonify(status="error", message="Invalid motor ID")
+
+        motor_controller.move_motor(angle, motor_id)
         
-        return jsonify(status="success", message=f"Set motor angle to {angle} degrees")
+        return jsonify(status="success", message=f"Set motor {motor_id} angle to {angle} degrees")
 
     except Exception as e:
         return jsonify(status="error", message=str(e))
 
-    finally:
-        # Close the Modbus connection
-        ser.close()
-
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)
+

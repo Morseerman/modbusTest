@@ -9,10 +9,18 @@
 </head>
 <body>
     <h1>Motor Position</h1>
-    <div id="position">Fetching...</div>
+
+    <div id="positionMotor14">Fetching Motor 14 Position...</div>
+    <div id="positionMotor15">Fetching Motor 15 Position...</div>
 
     <!-- Add a form for setting the motor position -->
     <div>
+        <label for="motorSelect">Select Motor:</label>
+        <select id="motorSelect">
+            <option value="14">Motor 14</option>
+            <option value="15">Motor 15</option>
+        </select>
+
         <label for="angleInput">Set Motor Angle:</label>
         <input type="text" id="angleInput" placeholder="Enter angle in degrees">
         <button id="setAngleButton">Set Angle</button>
@@ -24,10 +32,11 @@
                 url: '/get_position',
                 method: 'GET',
                 success: function(data) {
-                    if (data.position !== undefined && data.position !== null) {
-                        $('#position').text(`Position: ${data.position}`);
-                    } else if (data.error) {
-                        $('#position').text(`Error: ${data.error}`);
+                    if (data.motor_14_position !== undefined && data.motor_14_position !== null) {
+                        $('#positionMotor14').text(`Motor 14 Position: ${data.motor_14_position}`);
+                    }
+                    if (data.motor_15_position !== undefined && data.motor_15_position !== null) {
+                        $('#positionMotor15').text(`Motor 15 Position: ${data.motor_15_position}`);
                     }
                 }
             });
@@ -39,7 +48,9 @@
         // Function to set the motor position using a POST request
         $('#setAngleButton').click(function() {
             const angle = $('#angleInput').val();
-            $.post('/set_position', { position: angle }, function(data) {
+            const motorId = $('#motorSelect').val();
+            
+            $.post('/set_position', { position: angle, motor_id: motorId }, function(data) {
                 if (data.status === 'success') {
                     alert(data.message);
                     fetchPosition();
