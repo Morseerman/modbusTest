@@ -1,9 +1,9 @@
 from pymodbus.client import ModbusSerialClient
 
-def read_registers(register_address, motor_id):
+def read_registers(register_address, number_of_registers, motor_id):
 
     # Read from the register
-    response = ser.read_holding_registers(register_address, 1, motor_id)
+    response = ser.read_holding_registers(register_address, number_of_registers, motor_id)
 
     # Check if the read operation was successful
     if response.isError():
@@ -16,9 +16,9 @@ def read_registers(register_address, motor_id):
 
     ser.close()
     
-def read_motor_position(client, motor_id):
+def read_motor_position(ser, motor_id):
       # Read from the register
-    response = client.read_holding_registers(0x1803, 1, motor_id)
+    response = ser.read_holding_registers(0x1803, 1, motor_id)
 
     # Check if the read operation was successful
     if not response.isError():           
@@ -26,7 +26,7 @@ def read_motor_position(client, motor_id):
 
     else:
         print(f"Error reading register {0x1803}")
-    client.close()
+    ser.close()
     return response.register[0]
 
 #-----------------------------------------------------------------------------------------------------------
