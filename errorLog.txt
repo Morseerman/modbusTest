@@ -1,1 +1,22 @@
 Compass Data: $HCHDG,299.8,,,,*48
+
+Error reading register 6147
+[2023-10-17 16:39:14,374] ERROR in app: Exception on /get_position [GET]
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/flask/app.py", line 2447, in wsgi_app
+    response = self.full_dispatch_request()
+  File "/usr/lib/python3/dist-packages/flask/app.py", line 1952, in full_dispatch_request
+    rv = self.handle_user_exception(e)
+  File "/usr/lib/python3/dist-packages/flask/app.py", line 1821, in handle_user_exception
+    reraise(exc_type, exc_value, tb)
+  File "/usr/lib/python3/dist-packages/flask/_compat.py", line 39, in reraise
+    raise value
+  File "/usr/lib/python3/dist-packages/flask/app.py", line 1950, in full_dispatch_request
+    rv = self.dispatch_request()
+  File "/usr/lib/python3/dist-packages/flask/app.py", line 1936, in dispatch_request
+    return self.view_functions[rule.endpoint](**req.view_args)
+  File "/home/stuart/Documents/work/modbusTest/flaskApplication.py", line 17, in get_position
+    response_14 = read.read_motor_position(14)
+  File "/home/stuart/Documents/work/modbusTest/read.py", line 31, in read_motor_position
+    return response.registers[0]
+AttributeError: 'ModbusIOException' object has no attribute 'registers'
