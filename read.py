@@ -18,17 +18,20 @@ def read_registers(register_address, number_of_registers, motor_id):
     return response
     
 def read_motor_position(motor_id):
-      # Read from the register
+    # Read from the register
     response = ser.read_holding_registers(0x1803, 1, motor_id)
 
+    ser.close()
+    
     # Check if the read operation was successful
     if not response.isError():           
         print(f"Position: {response.registers[0]}")
-
+        return response.registers[0]
     else:
         print(f"Error reading register {0x1803}")
-    ser.close()
-    return response.registers[0]
+        return None
+    
+    
 
 #-----------------------------------------------------------------------------------------------------------
 #                                               Setup
