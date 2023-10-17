@@ -6,7 +6,7 @@ import read
 app = Flask(__name__)
 app.static_folder = 'static'
 
-ser = ModbusSerialClient(method='rtu', port='/dev/ttyUSB0', baudrate=9600, parity='E', stopbits=1, bytesize=8, timeout=5.0)
+#ser = ModbusSerialClient(method='rtu', port='/dev/ttyUSB0', baudrate=9600, parity='E', stopbits=1, bytesize=8, timeout=5.0)
 
 @app.route('/')
 def index():
@@ -14,12 +14,10 @@ def index():
 
 @app.route('/get_position')
 def get_position():  
-    response = read.read_motor_position
+    response = read.read_motor_position(14)
+       
+    return jsonify(position=response / 100)   
 
-    if not response.isError():        
-        return jsonify(position=response.registers[0] / 100)   
-    else:
-        return jsonify(error=f"Error reading register {0x1803}")
 
 @app.route('/set_position', methods=['POST'])
 def set_position():
