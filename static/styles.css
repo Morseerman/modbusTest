@@ -1,59 +1,84 @@
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f4f4f4;
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    background-color: #f7fafc;
     margin: 40px auto;
     max-width: 600px;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 20px 40px;
+    border-radius: 12px;
+    box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
 }
 
 h1 {
     font-size: 2.5em;
     text-align: center;
-    color: #333;
-    margin-bottom: 30px;
+    color: #2d3748;
+    margin-bottom: 40px;
+    border-bottom: 2px solid #e2e8f0;
+    padding-bottom: 20px;
 }
 
 #position {
-    font-size: 1.5em;
+    font-size: 1.8em;
     text-align: center;
-    color: #666;
-    margin-bottom: 30px;
+    color: #4a5568;
+    margin-bottom: 40px;
 }
 
 div {
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 label {
     display: block;
     margin-bottom: 10px;
     font-weight: bold;
+    color: #4a5568;
 }
 
-input[type="text"] {
+input[type="text"], select {
     width: 100%;
-    padding: 10px;
+    padding: 12px 16px;
     font-size: 1em;
-    border: 1px solid #ddd;
-    border-radius: 4px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
     box-sizing: border-box;
+    transition: border-color 0.3s ease;
+}
+
+input[type="text"]:focus, select:focus {
+    outline: none;
+    border-color: #63b3ed;
 }
 
 button {
     display: block;
     width: 100%;
-    padding: 10px;
-    background-color: #007BFF;
+    padding: 12px 16px;
+    background-color: #4a90e2;
     color: #fff;
     border: none;
-    border-radius: 4px;
+    border-radius: 8px;
     font-size: 1em;
     cursor: pointer;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.3s;
 }
 
 button:hover {
-    background-color: #0056b3;
+    background-color: #357abD;
+    transform: scale(1.02);
+}
+
+button:active {
+    transform: scale(0.98);
+}
+
+/* If you want a nice dropdown for motor selection */
+select {
+    margin-bottom: 20px;
+    appearance: none;
+    background-color: #fff;
+    background-image: url('data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAUCAYAAACEY3w/AAAABmJLR0QA/wD/AP+gvaeTAAAAp0lEQVQ4y2P4//8/Awy/O3fu/8Dw/1Eudw8d8usK/FGJ3n79Bv3y8DE/D/8Hwv9fBi98IAbzDzMy/A8WbqDwD2HIl1H4z/B/HPyXgQx/DeUPX0fg8w8D5a8Dw2dlYPkLph7+fAjd+5dC6zdB8f+Hg+P/BMIPvwiTvwFp6I0MjP0H4f8PXPwhBv8/DC/8fQTdf0DY/jKwAD/C/Bw6dgmM/g2mnsHg3w8Dkz/BrL9/0B4f8Pw/8DQwYewGj/5HQDd6IYDbPZswFQAAAABJRU5ErkJggg==');
+    background-position: 95% center;
+    background-repeat: no-repeat;
 }
