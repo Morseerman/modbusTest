@@ -49,6 +49,3 @@ function fetchCompassData() {
 // Fetch the compass data every 2 seconds
 setInterval(fetchCompassData, 2000);
 
-
-// Fetch the compass data every 2 seconds
-setInterval(fetchCompassData, 500);
