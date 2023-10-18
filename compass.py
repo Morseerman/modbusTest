@@ -3,7 +3,7 @@ import serial
 def extract_value_from_data(data):
     data_parts = data.split(',')
 
-    if data_parts > 1:
+    if len(data_parts) > 1:
         return data_parts[1]
     else:
         return None
