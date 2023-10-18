@@ -15,19 +15,19 @@ def interpret_direction(compass_data):
     compass_data = float(compass_data)
     if compass_data > 337.5 or compass_data <= 22.5:
         return 'N'
-    if compass_data > 22.5 and compass_data <= 67.5:
+    elif compass_data > 22.5 and compass_data <= 67.5:
         return 'N.E'
-    if compass_data > 67.5 and compass_data <= 112.5:
+    elif compass_data > 67.5 and compass_data <= 112.5:
         return 'E'
-    if compass_data > 112.5 and compass_data <= 157.5:
+    elif compass_data > 112.5 and compass_data <= 157.5:
         return 'S.E'
-    if compass_data > 157.5 and compass_data <= 202.5:
+    elif compass_data > 157.5 and compass_data <= 202.5:
         return 'S'
-    if compass_data > 202.5 and compass_data <= 247.5:
+    elif compass_data > 202.5 and compass_data <= 247.5:
         return 'S.W'
-    if compass_data > 247.5 and compass_data <= 292.5:
+    elif compass_data > 247.5 and compass_data <= 292.5:
         return 'W'
-    if compass_data > 292.5 and compass_data <= 337.5:
+    elif compass_data > 292.5 and compass_data <= 337.5:
         return 'N.W'
 
 def read_compass():
