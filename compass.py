@@ -11,6 +11,24 @@ def extract_value_from_data(data):
     else:
         return None
 
+def interpret_direction(compass_data):
+    if compass_data > 337.5 or compass_data <= 22.5:
+        return 'N'
+    if compass_data > 22.5 and compass_data <= 67.5:
+        return 'N.E'
+    if compass_data > 67.5 and compass_data <= 112.5:
+        return 'E'
+    if compass_data > 112.5 and compass_data <= 157.5:
+        return 'S.E'
+    if compass_data > 157.5 and compass_data <= 202.5:
+        return 'S'
+    if compass_data > 202.5 and compass_data <= 247.5:
+        return 'S.W'
+    if compass_data > 247.5 and compass_data <= 292.5:
+        return 'W'
+    if compass_data > 292.5 and compass_data <= 337.5:
+        return 'N.W'
+
 def read_compass():
     global latest_compass_data
 
@@ -33,4 +51,5 @@ def read_compass():
         print(f"Error: {str(e)}")
 
 def get_latest_compass_data():
-    return latest_compass_data
+    direction = interpret_direction(latest_compass_data)
+    return latest_compass_data + f"  ({direction})"
