@@ -9,10 +9,17 @@
 </head>
 <body>
     <h1>Motor Position</h1>
-    <div id="position">Fetching...</div>
+    <div id="position1">Motor 1 Position: Fetching...</div>
+    <div id="position2">Motor 2 Position: Fetching...</div>
 
     <!-- Add a form for setting the motor position -->
     <div>
+        <label for="motorSelector">Choose Motor:</label>
+        <select id="motorSelector">
+            <option value="14">Motor 1</option>
+            <option value="15">Motor 2</option>
+        </select>
+
         <label for="angleInput">Set Motor Angle:</label>
         <input type="text" id="angleInput" placeholder="Enter angle in degrees">
         <button id="setAngleButton">Set Angle</button>
@@ -26,14 +33,28 @@
 
     <script>
         function fetchPosition() {
+            // Fetch for Motor 1
             $.ajax({
-                url: '/get_position',
+                url: '/get_position?motor_id=14',
                 method: 'GET',
                 success: function(data) {
                     if (data.position !== undefined && data.position !== null) {
-                        $('#position').text(`Position: ${data.position}`);
+                        $('#position1').text(`Motor 1 Position: ${data.position}`);
                     } else if (data.error) {
-                        $('#position').text(`Error: ${data.error}`);
+                        $('#position1').text(`Error: ${data.error}`);
+                    }
+                }
+            });
+
+            // Fetch for Motor 2
+            $.ajax({
+                url: '/get_position?motor_id=15',
+                method: 'GET',
+                success: function(data) {
+                    if (data.position !== undefined && data.position !== null) {
+                        $('#position2').text(`Motor 2 Position: ${data.position}`);
+                    } else if (data.error) {
+                        $('#position2').text(`Error: ${data.error}`);
                     }
                 }
             });
@@ -44,8 +65,9 @@
 
         // Function to set the motor position using a POST request
         $('#setAngleButton').click(function() {
+            const motor_id = $('#motorSelector').val();
             const angle = $('#angleInput').val();
-            $.post('/set_position', { position: angle }, function(data) {
+            $.post(`/set_position?motor_id=${motor_id}`, { position: angle }, function(data) {
                 if (data.status === 'success') {
                     // Display success message
                     $('#resultIcon').text('✓').addClass('success').removeClass('error');
