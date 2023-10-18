@@ -37,11 +37,18 @@ function fetchCompassData() {
         method: 'GET',
         success: function(data) {
             if (data.compass_data !== undefined && data.compass_data !== null) {
-                $('#compassDataDiv').text(`Compass Data: ${data.compass_data}`);
+                $('#compassData').text(`Compass Data: ${data.compass_data}`);
             }
+        },
+        error: function() {
+            $('#compassData').text(`Failed to fetch compass data.`);
         }
     });
 }
+
+// Fetch the compass data every 2 seconds
+setInterval(fetchCompassData, 2000);
+
 
 // Fetch the compass data every 2 seconds
 setInterval(fetchCompassData, 500);
