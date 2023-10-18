@@ -9,15 +9,16 @@
 </head>
 <body>
     <h1>Motor Position</h1>
-    <div id="position1">Motor 1 Position: Fetching...</div>
-    <div id="position2">Motor 2 Position: Fetching...</div>
+
+    <div id="positionMotor14">Fetching Motor 14 Position...</div>
+    <div id="positionMotor15">Fetching Motor 15 Position...</div>
 
     <!-- Add a form for setting the motor position -->
     <div>
-        <label for="motorSelector">Choose Motor:</label>
-        <select id="motorSelector">
-            <option value="14">Motor 1</option>
-            <option value="15">Motor 2</option>
+        <label for="motorSelect">Select Motor:</label>
+        <select id="motorSelect">
+            <option value="14">Motor 14</option>
+            <option value="15">Motor 15</option>
         </select>
 
         <label for="angleInput">Set Motor Angle:</label>
@@ -25,36 +26,17 @@
         <button id="setAngleButton">Set Angle</button>
     </div>
 
-    <!-- Result message div -->
-    <div id="resultMessage" style="display: none;">
-        <span id="resultIcon"></span>
-        <span id="resultText"></span>
-    </div>
-
     <script>
         function fetchPosition() {
-            // Fetch for Motor 1
             $.ajax({
-                url: '/get_position?motor_id=14',
+                url: '/get_position',
                 method: 'GET',
                 success: function(data) {
-                    if (data.position !== undefined && data.position !== null) {
-                        $('#position1').text(`Motor 1 Position: ${data.position}`);
-                    } else if (data.error) {
-                        $('#position1').text(`Error: ${data.error}`);
+                    if (data.motor_14_position !== undefined && data.motor_14_position !== null) {
+                        $('#positionMotor14').text(`Motor 14 Position: ${data.motor_14_position}`);
                     }
-                }
-            });
-
-            // Fetch for Motor 2
-            $.ajax({
-                url: '/get_position?motor_id=15',
-                method: 'GET',
-                success: function(data) {
-                    if (data.position !== undefined && data.position !== null) {
-                        $('#position2').text(`Motor 2 Position: ${data.position}`);
-                    } else if (data.error) {
-                        $('#position2').text(`Error: ${data.error}`);
+                    if (data.motor_15_position !== undefined && data.motor_15_position !== null) {
+                        $('#positionMotor15').text(`Motor 15 Position: ${data.motor_15_position}`);
                     }
                 }
             });
@@ -65,20 +47,15 @@
 
         // Function to set the motor position using a POST request
         $('#setAngleButton').click(function() {
-            const motor_id = $('#motorSelector').val();
             const angle = $('#angleInput').val();
-            $.post(`/set_position?motor_id=${motor_id}`, { position: angle }, function(data) {
+            const motorId = $('#motorSelect').val();
+            
+            $.post('/set_position', { position: angle, motor_id: motorId }, function(data) {
                 if (data.status === 'success') {
-                    // Display success message
-                    $('#resultIcon').text('✓').addClass('success').removeClass('error');
-                    $('#resultText').text(data.message).addClass('success').removeClass('error');
-                    $('#resultMessage').show();
+                    alert(data.message);
                     fetchPosition();
                 } else {
-                    // Display error message
-                    $('#resultIcon').text('✗').addClass('error').removeClass('success');
-                    $('#resultText').text(`Error: ${data.message}`).addClass('error').removeClass('success');
-                    $('#resultMessage').show();
+                    alert(`Error: ${data.message}`);
                 }
             });
         });
