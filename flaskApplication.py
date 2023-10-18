@@ -2,6 +2,8 @@ from flask import Flask, request, jsonify, render_template
 from pymodbus.client import ModbusSerialClient
 import motor_controller
 import read
+import threading
+import compass
 
 app = Flask(__name__)
 app.static_folder = 'static'
@@ -38,6 +40,16 @@ def set_position():
     except Exception as e:
         return jsonify(status="error", message=str(e))
 
+@app.route('/get_compass_data')
+def get_compass_data():
+    data = compass.get_latest_compass_data()
+    return jsonify(compass_data=data)
+
 if __name__ == '__main__':
+    # Start compass reading in a separate thread
+    compass_thread = threading.Thread(target=compass.read_compass)
+    compass_thread.start()
+
+    #Start Flask application
     app.run(host='0.0.0.0', port=5000)
 

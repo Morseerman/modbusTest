@@ -30,3 +30,18 @@ $('#setAngleButton').click(function() {
         }
     });
 });
+
+function fetchCompassData() {
+    $.ajax({
+        url: '/get_compass_data',
+        method: 'GET',
+        success: function(data) {
+            if (data.compass_data !== undefined && data.compass_data !== null) {
+                $('#compassDataDiv').text(`Compass Data: ${data.compass_data}`);
+            }
+        }
+    });
+}
+
+// Fetch the compass data every 2 seconds
+setInterval(fetchCompassData, 500);
