@@ -12,6 +12,7 @@ def extract_value_from_data(data):
         return None
 
 def interpret_direction(compass_data):
+    compass_data = float(compass_data)
     if compass_data > 337.5 or compass_data <= 22.5:
         return 'N'
     if compass_data > 22.5 and compass_data <= 67.5:
