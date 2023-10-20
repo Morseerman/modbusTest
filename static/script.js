@@ -12,7 +12,6 @@ function fetchPosition() {
         }
     });
 }
-
 // Fetch the position every 2 seconds
 setInterval(fetchPosition, 2000);
 
@@ -45,7 +44,23 @@ function fetchCompassData() {
         }
     });
 }
-
 // Fetch the compass data every 2 seconds
 setInterval(fetchCompassData, 2000);
 
+
+function fetchInclinometerData() {
+    $.ajax({
+        url: '/get_inclinometer_data',
+        method: 'GET',
+        success: function(data) {
+            if (data.inclinometer_data !== undefined && data.inclinometer_data !== null) {
+                $('#inclinometerDataDiv').text(`Inclinometer Data: X: ${data.inclinometer_data.x}, Y: ${data.inclinometer_data.y}, Z: ${data.inclinometer_data.z}`);
+            }
+        },
+        error: function() {
+            $('#inclinometerDataDiv').text(`Failed to fetch inclinometer data.`);
+        }
+    });
+}
+// Fetch the inclinometer data every 2 seconds
+setInterval(fetchInclinometerData, 2000);

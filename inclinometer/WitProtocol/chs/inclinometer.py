@@ -99,6 +99,30 @@ def onUpdate(deviceModel):
         Tempstr += "\r\n"
         _writeF.write(Tempstr)
 
+angle_data = {'x': None, 'y': None, 'z': None}
+
+def get_angle_data():
+    global angle_data
+    return angle_data
+
+def onAngleUpdate(deviceModel):
+    """
+    Data update event for angle
+    :param deviceModel: Device model
+    :return:
+    """
+    global angle_data
+    angle_data = {
+        'x': deviceModel.getDeviceData("angleX"),
+        'y': deviceModel.getDeviceData("angleY"),
+        'z': deviceModel.getDeviceData("angleZ")
+    }
+    print("Angle:"
+          " X:" + str(angle_data['x']) +
+          ", Y:" + str(angle_data['y']) +
+          ", Z:" + str(angle_data['z'])
+          )
+
 def startRecord():
     """
     Start recording data
@@ -106,20 +130,22 @@ def startRecord():
     """
     global _writeF
     global _IsWriteF
-    _writeF = open(str(datetime.datetime.now().strftime('%Y%m%d%H%M%S')) + ".txt", "w")    # Create a new file
-    _IsWriteF = True                                                                        # Mark write identification
-    Tempstr = "Chiptime"
-    Tempstr +=  "\tax(g)\tay(g)\taz(g)"
-    Tempstr += "\twx(deg/s)\twy(deg/s)\twz(deg/s)"
-    Tempstr += "\tAngleX(deg)\tAngleY(deg)\tAngleZ(deg)"
-    Tempstr += "\tT(°)"
-    Tempstr += "\tmagx\tmagy\tmagz"
-    Tempstr += "\tlon\tlat"
-    Tempstr += "\tYaw\tSpeed"
-    Tempstr += "\tq1\tq2\tq3\tq4"
-    Tempstr += "\r\n"
-    _writeF.write(Tempstr)
-    print("Start recording data")
+    
+    if _IsWriteF:
+        _writeF = open("inclinometer/data_files/" + str(datetime.datetime.now().strftime('%Y%m%d%H%M%S')) + ".txt", "w")  # Create a new file in specified directory
+        _IsWriteF = True                                                    # Mark write identification
+        Tempstr = "Chiptime"
+        Tempstr +=  "\tax(g)\tay(g)\taz(g)"
+        Tempstr += "\twx(deg/s)\twy(deg/s)\twz(deg/s)"
+        Tempstr += "\tAngleX(deg)\tAngleY(deg)\tAngleZ(deg)"
+        Tempstr += "\tT(°)"
+        Tempstr += "\tmagx\tmagy\tmagz"
+        Tempstr += "\tlon\tlat"
+        Tempstr += "\tYaw\tSpeed"
+        Tempstr += "\tq1\tq2\tq3\tq4"
+        Tempstr += "\r\n"
+        _writeF.write(Tempstr)
+        print("Start recording data")
 
 def endRecord():
     """
@@ -152,7 +178,7 @@ if __name__ == '__main__':
     device.serialConfig.baud = 9600                     # Set baud rate
     device.openDevice()                                 # Open serial port
     readConfig(device)                                  # Read configuration information
-    device.dataProcessor.onVarChanged.append(onUpdate)  # Data update event
+    device.dataProcessor.onVarChanged.append(onAngleUpdate)  # Data update event
 
     startRecord()                                       # Start recording data
     input()

@@ -4,6 +4,7 @@ import motor_controller
 import read
 import threading
 import compass
+from Inclinometer.WitProtocol.chs.inclinometer import get_angle_data
 
 app = Flask(__name__)
 app.static_folder = 'static'
@@ -44,6 +45,13 @@ def set_position():
 def get_compass_data():
     data = compass.get_latest_compass_data()
     return jsonify(compass_data=data)
+
+@app.route('/get_inclinometer_data')
+def get_inclinometer_data():
+    # Assume get_inclinometer_data is a function that returns a dict with x, y, and z values
+    data = get_angle_data()
+    return jsonify(inclinometer_data=data)
+
 
 if __name__ == '__main__':
     # Start compass reading in a separate thread
