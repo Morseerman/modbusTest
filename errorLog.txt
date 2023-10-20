@@ -33,3 +33,5 @@ Traceback (most recent call last):
   File "/usr/local/lib/python3.9/dist-packages/pymodbus/client/serial.py", line 219, in send
     raise ConnectionException(str(self))
 pymodbus.exceptions.ConnectionException: Modbus Error: [Connection] ModbusSerialClient(<pymodbus.framer.rtu_framer.ModbusRtuFramer object at 0x7faafe0d60> baud[9600])
+
+Chip time:None  Temperature:24.65  Acceleration:0.0737,-0.0645,0.9814  Angular velocity:0.0,0.0,0.0  Angle:-3.395,-4.257,-100.338  Magnetic field:-1712,-53,-3185  Longitude:None Latitude:None  Yaw angle:None Ground speed:None  Quaternion:None,None,None,None
