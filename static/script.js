@@ -35,6 +35,7 @@ function fetchCompassData() {
         url: '/get_compass_data',
         method: 'GET',
         success: function(data) {
+            console.log(data.compass_data)
             if (data.compass_data !== undefined && data.compass_data !== null) {
                 $('#compassData').text(`Compass Data: ${data.compass_data}`);
             }
@@ -54,11 +55,11 @@ function fetchInclinometerData() {
         method: 'GET',
         success: function(data) {
             if (data.inclinometer_data !== undefined && data.inclinometer_data !== null) {
-                $('#inclinometerDataDiv').text(`Inclinometer Data: X: ${data.inclinometer_data.x}, Y: ${data.inclinometer_data.y}, Z: ${data.inclinometer_data.z}`);
+                $('#inclinometerData').text(`Inclinometer Data: X: ${data.inclinometer_data.x}, Y: ${data.inclinometer_data.y}, Z: ${data.inclinometer_data.z}`);
             }
         },
         error: function() {
-            $('#inclinometerDataDiv').text(`Failed to fetch inclinometer data.`);
+            $('#inclinometerData').text(`Failed to fetch inclinometer data.`);
         }
     });
 }

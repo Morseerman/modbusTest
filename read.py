@@ -27,6 +27,7 @@ def read_motor_position(motor_id):
         return response.registers[0]
     else:
         print(f"Error reading register {0x1803}")
+        print(response)
         return None
     
     
