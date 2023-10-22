@@ -102,6 +102,7 @@ angle_data = {'x': None, 'y': None, 'z': None}
 
 def get_angle_data():
     global angle_data
+    print("--------->" + str(angle_data['x'] + angle_data['y'] + angle_data['z']))
     return str(angle_data['x'] + angle_data['y'] + angle_data['z'])
 
 def onAngleUpdate(deviceModel):
@@ -116,11 +117,11 @@ def onAngleUpdate(deviceModel):
         'y': deviceModel.getDeviceData("angleY"),
         'z': deviceModel.getDeviceData("angleZ")
     }
-    print("Angle:"
-          " X:" + str(angle_data['x']) +
-          ", Y:" + str(angle_data['y']) +
-          ", Z:" + str(angle_data['z'])
-          )
+    # print("Angle:"
+    #       " X:" + str(angle_data['x']) +
+    #       ", Y:" + str(angle_data['y']) +
+    #       ", Z:" + str(angle_data['z'])
+    #       )
 
 def startRecord():
     """
