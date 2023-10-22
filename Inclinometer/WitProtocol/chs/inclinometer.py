@@ -157,8 +157,7 @@ def endRecord():
     _writeF.close()               # Close file
     print("End recording data")
 
-if __name__ == '__main__':
-
+def start_inclinometer():
     print(welcome)
     """
     Initialize a device model
@@ -184,3 +183,6 @@ if __name__ == '__main__':
     device.closeDevice()
     endRecord()                                         # End recording data
 
+if __name__ == '__main__':
+
+    start_inclinometer()
