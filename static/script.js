@@ -55,7 +55,7 @@ function fetchInclinometerData() {
         method: 'GET',
         success: function(data) {
             if (data.inclinometer_data !== undefined && data.inclinometer_data !== null) {
-                $('#inclinometerData').text(`Inclinometer Data: X: ${data.inclinometer_data.x}, Y: ${data.inclinometer_data.y}, Z: ${data.inclinometer_data.z}`);
+                $('#inclinometerData').text(`Inclinometer Data: ${data.inclinometer_data}`);
             }
         },
         error: function() {
