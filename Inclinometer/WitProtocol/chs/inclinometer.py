@@ -102,7 +102,7 @@ angle_data = {'x': None, 'y': None, 'z': None}
 
 def get_angle_data():
     global angle_data
-    print("--------->" + str(angle_data['x']) + " ~~~~ "  + str(angle_data['y']) + " ~~~~ " + str(angle_data['z']))
+    print("--------->" + str(angle_data['x']) + " ~~~~ "  + str(angle_data['y']) + " ~~~~ " + str(angle_data['z']) + "  Pressure: " + str(deviceModel.getDeviceData("pressure")))
     return "X: " + str(angle_data['x']) + "  Y: "  + str(angle_data['y']) + "  X: " + str(angle_data['z'])
 
 def onAngleUpdate(deviceModel):
