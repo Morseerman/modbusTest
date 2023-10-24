@@ -177,16 +177,17 @@ def start_inclinometer():
         JY901SDataProcessor(),
         "51_0"
     )
-
-    if (platform.system().lower() == 'linux'):
-        device.serialConfig.portName = "/dev/ttyUSB3"   # Set serial port
-    else:
-        device.serialConfig.portName = "COM5"          # Set serial port
-    device.serialConfig.baud = 9600                     # Set baud rate
-    device.openDevice()                                 # Open serial port
-    readConfig(device)                                  # Read configuration information
-    device.dataProcessor.onVarChanged.append(onUpdate)  # Data update event
-
+    try:
+        if (platform.system().lower() == 'linux'):
+            device.serialConfig.portName = "/dev/ttyUSB3"   # Set serial port
+        else:
+            device.serialConfig.portName = "COM5"          # Set serial port
+        device.serialConfig.baud = 9600                     # Set baud rate
+        device.openDevice()                                 # Open serial port
+        readConfig(device)                                  # Read configuration information
+        device.dataProcessor.onVarChanged.append(onUpdate)  # Data update event
+    except Exception as e:
+        print(f"An error occurred: {e}")
     startRecord()                                       # Start recording data
     input()
     device.closeDevice()
