@@ -1,6 +1,6 @@
 # coding:UTF-8
 import time
-from Inclinometer.WitProtocol.chs.lib.protocol_resolver.interface.i_protocol_resolver import IProtocolResolver
+from lib.protocol_resolver.interface.i_protocol_resolver import IProtocolResolver
 
 """
     维特协议解析器
@@ -114,6 +114,7 @@ class WitProtocolResolver(IProtocolResolver):
         deviceModel.setDeviceData("accZ", round(acc_z, 4))     # 设备模型加速度Z赋值
         temperature = round(tempVal / 100.0, 2)                                           # 温度结算,并保留两位小数
         deviceModel.setDeviceData("temperature", temperature)                             # 设备模型温度赋值
+        deviceModel.setDeviceData("pressure", datahex[11])
 
     def get_gyro(self,datahex, deviceModel):
         """

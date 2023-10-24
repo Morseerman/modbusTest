@@ -74,16 +74,18 @@ def onUpdate(deviceModel):
     :param deviceModel: Device model
     :return:
     """
-    print("Chip time:" + str(deviceModel.getDeviceData("Chiptime"))
-         , " Temperature:" + str(deviceModel.getDeviceData("temperature"))
-         , " Acceleration:" + str(deviceModel.getDeviceData("accX")) +","+  str(deviceModel.getDeviceData("accY")) +","+ str(deviceModel.getDeviceData("accZ"))
-         ,  " Angular velocity:" + str(deviceModel.getDeviceData("gyroX")) +","+ str(deviceModel.getDeviceData("gyroY")) +","+ str(deviceModel.getDeviceData("gyroZ"))
-         , " Angle:" + str(deviceModel.getDeviceData("angleX")) +","+ str(deviceModel.getDeviceData("angleY")) +","+ str(deviceModel.getDeviceData("angleZ"))
-        , " Magnetic field:" + str(deviceModel.getDeviceData("magX")) +","+ str(deviceModel.getDeviceData("magY"))+","+ str(deviceModel.getDeviceData("magZ"))
-        , " Longitude:" + str(deviceModel.getDeviceData("lon")) + " Latitude:" + str(deviceModel.getDeviceData("lat"))
-        , " Yaw angle:" + str(deviceModel.getDeviceData("Yaw")) + " Ground speed:" + str(deviceModel.getDeviceData("Speed"))
-         , " Quaternion:" + str(deviceModel.getDeviceData("q1")) + "," + str(deviceModel.getDeviceData("q2")) + "," + str(deviceModel.getDeviceData("q3"))+ "," + str(deviceModel.getDeviceData("q4"))
-          )
+    # print("Chip time:" + str(deviceModel.getDeviceData("Chiptime"))
+    #      , " Temperature:" + str(deviceModel.getDeviceData("temperature"))
+    #      , " Acceleration:" + str(deviceModel.getDeviceData("accX")) +","+  str(deviceModel.getDeviceData("accY")) +","+ str(deviceModel.getDeviceData("accZ"))
+    #      ,  " Angular velocity:" + str(deviceModel.getDeviceData("gyroX")) +","+ str(deviceModel.getDeviceData("gyroY")) +","+ str(deviceModel.getDeviceData("gyroZ"))
+    #      , " Angle:" + str(deviceModel.getDeviceData("angleX")) +","+ str(deviceModel.getDeviceData("angleY")) +","+ str(deviceModel.getDeviceData("angleZ"))
+    #     , " Magnetic field:" + str(deviceModel.getDeviceData("magX")) +","+ str(deviceModel.getDeviceData("magY"))+","+ str(deviceModel.getDeviceData("magZ"))
+    #     , " Longitude:" + str(deviceModel.getDeviceData("lon")) + " Latitude:" + str(deviceModel.getDeviceData("lat"))
+    #     , " Yaw angle:" + str(deviceModel.getDeviceData("Yaw")) + " Ground speed:" + str(deviceModel.getDeviceData("Speed"))
+    #      , " Quaternion:" + str(deviceModel.getDeviceData("q1")) + "," + str(deviceModel.getDeviceData("q2")) + "," + str(deviceModel.getDeviceData("q3"))+ "," + str(deviceModel.getDeviceData("q4"))
+    #       )
+    print("Pressure: " + str(deviceModel.getDeviceData("pressure")))
+    #print("Temperature: " + str(deviceModel.getDeviceData("temperature")))
     if (_IsWriteF):    # Record data
         Tempstr = " " + str(deviceModel.getDeviceData("Chiptime"))
         Tempstr += "\t"+str(deviceModel.getDeviceData("accX")) + "\t"+str(deviceModel.getDeviceData("accY"))+"\t"+ str(deviceModel.getDeviceData("accZ"))
@@ -177,7 +179,7 @@ def start_inclinometer():
     device.serialConfig.baud = 9600                     # Set baud rate
     device.openDevice()                                 # Open serial port
     readConfig(device)                                  # Read configuration information
-    device.dataProcessor.onVarChanged.append(onAngleUpdate)  # Data update event
+    device.dataProcessor.onVarChanged.append(onUpdate)  # Data update event
 
     startRecord()                                       # Start recording data
     input()
