@@ -51,6 +51,7 @@ class WitProtocolResolver(IProtocolResolver):
                         self.get_angle(self.TempBytes,deviceModel)    #结算角度数据
                     elif(self.TempBytes[1]==0x54):                    #磁场包
                         self.get_mag(self.TempBytes, deviceModel)     #结算磁场数据
+                        deviceModel.dataProcessor.onUpdate(deviceModel) #触发数据更新事件
                     elif(self.TempBytes[1]==0x56):                    #磁场包
                         self.get_pressure(self.TempBytes, deviceModel)
                     elif(self.TempBytes[1]==0x57):                    #经纬度包
