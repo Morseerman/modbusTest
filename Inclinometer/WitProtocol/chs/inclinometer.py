@@ -85,7 +85,7 @@ def onUpdate(deviceModel):
     #      , " Quaternion:" + str(deviceModel.getDeviceData("q1")) + "," + str(deviceModel.getDeviceData("q2")) + "," + str(deviceModel.getDeviceData("q3"))+ "," + str(deviceModel.getDeviceData("q4"))
     #       )
     print("Pressure: " + str(deviceModel.getDeviceData("pressure")))
-    #print("Temperature: " + str(deviceModel.getDeviceData("temperature")))
+    print("Temperature: " + str(deviceModel.getDeviceData("temperature")))
     if (_IsWriteF):    # Record data
         Tempstr = " " + str(deviceModel.getDeviceData("Chiptime"))
         Tempstr += "\t"+str(deviceModel.getDeviceData("accX")) + "\t"+str(deviceModel.getDeviceData("accY"))+"\t"+ str(deviceModel.getDeviceData("accZ"))

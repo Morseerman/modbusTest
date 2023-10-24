@@ -52,6 +52,8 @@ class WitProtocolResolver(IProtocolResolver):
                     elif(self.TempBytes[1]==0x54):                    #磁场包
                         self.get_mag(self.TempBytes, deviceModel)     #结算磁场数据
                         deviceModel.dataProcessor.onUpdate(deviceModel) #触发数据更新事件
+                    elif(self.TempBytes[1]==0x56):  
+                        self.get_pressure(self.TempBytes, deviceModel)
                     elif(self.TempBytes[1]==0x57):                    #经纬度包
                         self.get_lonlat(self.TempBytes, deviceModel)     #结算经纬度数据
                         deviceModel.dataProcessor.onUpdate(deviceModel) #触发数据更新事件
@@ -114,7 +116,7 @@ class WitProtocolResolver(IProtocolResolver):
         deviceModel.setDeviceData("accZ", round(acc_z, 4))     # 设备模型加速度Z赋值
         temperature = round(tempVal / 100.0, 2)                                           # 温度结算,并保留两位小数
         deviceModel.setDeviceData("temperature", temperature)                             # 设备模型温度赋值
-        deviceModel.setDeviceData("pressure", datahex[11])
+        
 
     def get_gyro(self,datahex, deviceModel):
         """
@@ -217,6 +219,26 @@ class WitProtocolResolver(IProtocolResolver):
         deviceModel.setDeviceData("Height", round(Height, 3))   # 设备模型高度赋值
         deviceModel.setDeviceData("Yaw", round(Yaw, 2))   # 设备模型航向角赋值
         deviceModel.setDeviceData("Speed", round(Speed, 3))   # 设备模型速度赋值
+    
+    def get_pressure(self, datahex, deviceModel):
+        """
+        Atmospheric Pressure Calculation
+        :param datahex: Raw data packet
+        :param deviceModel: Device model
+        :return:
+        """
+
+
+        # P = (datahex[6] << 24) | (datahex[5] << 16) | (datahex[4] << 8) | datahex[3]
+        # P = deviceModel.get_int(bytes([datahex[6],datahex[5],datahex[1],datahex[0]]))
+
+        # Extract air pressure data
+        pressureL = (datahex[3] << 8) | datahex[2]
+        pressureH = (datahex[5] << 8) | datahex[4]
+        P = (pressureH << 16) | pressureL
+
+        deviceModel.setDeviceData("pressure", P)  # Assigning Pressure to the device model
+
 
     def get_four_elements(self,datahex, deviceModel):
         """
