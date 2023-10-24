@@ -58,7 +58,7 @@ function fetchInclinometerData() {
                 $('#inclinometerData').text(`Inclinometer Data: ${data.inclinometer_angle_data}`);
             }
             if (data.inclinometer_air_pressure_data !== undefined && data.inclinometer_air_pressure_data !== null) {
-                $('#inclinometerAirPressure').text(`Inclinometer Air Pressure: ${data.inclinometer_air_pressure_data}`);
+                $('#inclinometerAirPressure').text(`Inclinometer Air Pressure: ${data.inclinometer_air_pressure_data} Pa`);
             }
         },
         error: function() {
