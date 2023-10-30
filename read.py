@@ -36,7 +36,7 @@ def read_motor_position(motor_id):
 #                                               Setup
 
 # Create a Modbus serial client
-ser = ModbusSerialClient(method='rtu', port='/dev/ttyUSB0', baudrate=9600, parity='E', stopbits=1, bytestize=8, timeout=5.0)
+ser = ModbusSerialClient(method='rtu', port='/dev/ttyUSB2', baudrate=9600, parity='E', stopbits=1, bytestize=8, timeout=5.0)
 
 # Connect to the Modbus device
 if ser.connect():

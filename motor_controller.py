@@ -11,6 +11,7 @@ def move_motor(angle, motor_id):
 
     except Exception as e:
         print(f"An error occurred: {str(e)}")
+    write.close_server()
 
    
 
