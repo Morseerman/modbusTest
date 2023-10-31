@@ -36,7 +36,7 @@ def read_signal_strength():
     import random
     return random.random()
 
-def scan_matrix(repetitions=10, matrix_size=10, step_size=1, start_x_angle=0, start_y_angle=90):
+def scan_matrix(repetitions=10, matrix_size=10, step_size=1,    =0, start_y_angle=90):
     """
     Moves the emitter across a matrix multiple times.
 
@@ -80,25 +80,25 @@ def scan_matrix(repetitions=10, matrix_size=10, step_size=1, start_x_angle=0, st
 
     return max_strength, max_position
 
-def refined_scan(position, step_size=1, matrix_size=10):
+def refined_scan(position, original_start_angles, step_size=1, matrix_size=10):
     """
     Performs a refined scan centered around a given position.
 
     Parameters:
-    - position: A tuple (x, y) indicating the position to center the refined scan around.
+    - position: A tuple (x, y) indicating the position to center the refined scan around (in terms of matrix indices).
+    - original_start_angles: A tuple (x, y) indicating the starting angles of the original scan.
     - step_size: The angular size for a single step.
     - matrix_size: Size of the refined matrix.
     """
     # Calculate the start angles for the refined scan.
-    # The math here assumes you're scanning a matrix centered at 'position'
-    start_x_angle = position[0] * step_size - (matrix_size * step_size) / 2
-    start_y_angle = position[1] * step_size - (matrix_size * step_size) / 2
+    start_x_angle = original_start_angles[0] + position[0] * step_size
+    start_y_angle = original_start_angles[1] + position[1] * step_size
 
     # Conduct the refined scan
     max_strength, max_position = scan_matrix(matrix_size=matrix_size, step_size=step_size/10,  # finer step size
                                              start_x_angle=start_x_angle, start_y_angle=start_y_angle)
     
-    # Adjust the max_position to be relative to the larger matrix
+    # Adjust the max_position to be relative to the original matrix
     refined_x = start_x_angle / step_size + max_position[0] / 10
     refined_y = start_y_angle / step_size + max_position[1] / 10
     
