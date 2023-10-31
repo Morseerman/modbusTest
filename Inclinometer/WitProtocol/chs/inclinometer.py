@@ -68,7 +68,7 @@ def FieldCalibration(device):
         device.EndFieldCalibration()                 # End field calibration
         print("Magnetic Field Calibration Ended")
 
-def onUpdate(deviceModel):
+def onUpdateAll(deviceModel):
     """
     Data update event
     :param deviceModel: Device model
@@ -99,13 +99,18 @@ def onUpdate(deviceModel):
         _writeF.write(Tempstr)
 
 angle_data = {'x': None, 'y': None, 'z': None}
+pressure = None
 
 def get_angle_data():
     global angle_data
-    print("--------->" + str(angle_data['x']) + " ~~~~ "  + str(angle_data['y']) + " ~~~~ " + str(angle_data['z']))
+    print("--------->" + str(angle_data['x']) + " ~~~~ "  + str(angle_data['y']) + " ~~~~ " + str(angle_data['z']) + "  Pressure: " + str(pressure))
     return "X: " + str(angle_data['x']) + "  Y: "  + str(angle_data['y']) + "  X: " + str(angle_data['z'])
 
-def onAngleUpdate(deviceModel):
+def get_pressure():
+    global pressure
+    return str(pressure)
+
+def onUpdate(deviceModel):
     """
     Data update event for angle
     :param deviceModel: Device model
@@ -117,6 +122,9 @@ def onAngleUpdate(deviceModel):
         'y': deviceModel.getDeviceData("angleY"),
         'z': deviceModel.getDeviceData("angleZ")
     }
+
+    global pressure
+    pressure = deviceModel.getDeviceData("pressure")
     # print("Angle:"
     #       " X:" + str(angle_data['x']) +
     #       ", Y:" + str(angle_data['y']) +
@@ -169,16 +177,17 @@ def start_inclinometer():
         JY901SDataProcessor(),
         "51_0"
     )
-
-    if (platform.system().lower() == 'linux'):
-        device.serialConfig.portName = "/dev/ttyUSB3"   # Set serial port
-    else:
-        device.serialConfig.portName = "COM5"          # Set serial port
-    device.serialConfig.baud = 9600                     # Set baud rate
-    device.openDevice()                                 # Open serial port
-    readConfig(device)                                  # Read configuration information
-    device.dataProcessor.onVarChanged.append(onAngleUpdate)  # Data update event
-
+    try:
+        if (platform.system().lower() == 'linux'):
+            device.serialConfig.portName = "/dev/ttyUSB3"   # Set serial port
+        else:
+            device.serialConfig.portName = "COM5"          # Set serial port
+        device.serialConfig.baud = 9600                     # Set baud rate
+        device.openDevice()                                 # Open serial port
+        readConfig(device)                                  # Read configuration information
+        device.dataProcessor.onVarChanged.append(onUpdate)  # Data update event
+    except Exception as e:
+        print(f"An error occurred: {e}")
     startRecord()                                       # Start recording data
     input()
     device.closeDevice()

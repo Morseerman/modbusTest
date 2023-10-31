@@ -50,10 +50,10 @@ def get_compass_data():
 @app.route('/get_inclinometer_data')
 def get_inclinometer_data():
     # Assume get_inclinometer_data is a function that returns a dict with x, y, and z values
-    print("chicken nuggets")
-    data = inclinometer.get_angle_data()
-    print(data + "<------")
-    return jsonify(inclinometer_data=data)
+    angle_data = inclinometer.get_angle_data()
+    air_pressure_data = inclinometer.get_pressure()
+    print(angle_data + "<------")
+    return jsonify(inclinometer_angle_data=angle_data, inclinometer_air_pressure_data=air_pressure_data)
 
 
 if __name__ == '__main__':

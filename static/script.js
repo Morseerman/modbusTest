@@ -54,8 +54,11 @@ function fetchInclinometerData() {
         url: '/get_inclinometer_data',
         method: 'GET',
         success: function(data) {
-            if (data.inclinometer_data !== undefined && data.inclinometer_data !== null) {
-                $('#inclinometerData').text(`Inclinometer Data: ${data.inclinometer_data}`);
+            if (data.inclinometer_angle_data !== undefined && data.inclinometer_angle_data !== null) {
+                $('#inclinometerData').text(`Inclinometer Data: ${data.inclinometer_angle_data}`);
+            }
+            if (data.inclinometer_air_pressure_data !== undefined && data.inclinometer_air_pressure_data !== null) {
+                $('#inclinometerAirPressure').text(`Inclinometer Air Pressure: ${data.inclinometer_air_pressure_data} Pa`);
             }
         },
         error: function() {
