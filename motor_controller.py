@@ -36,7 +36,7 @@ def read_signal_strength():
     import random
     return random.random()
 
-def scan_matrix(repetitions=10, matrix_size=10, step_size=1,    =0, start_y_angle=90):
+def scan_matrix(repetitions=10, matrix_size=10, step_size=1, start_x_angle=0, start_y_angle=90):
     """
     Moves the emitter across a matrix multiple times.
 
@@ -80,7 +80,7 @@ def scan_matrix(repetitions=10, matrix_size=10, step_size=1,    =0, start_y_angl
 
     return max_strength, max_position
 
-def refined_scan(position, original_start_angles, step_size=1, matrix_size=10):
+def refined_scan(position, start_x_angle=0, start_y_angle=90, step_size=1, matrix_size=10):
     """
     Performs a refined scan centered around a given position.
 
@@ -91,8 +91,8 @@ def refined_scan(position, original_start_angles, step_size=1, matrix_size=10):
     - matrix_size: Size of the refined matrix.
     """
     # Calculate the start angles for the refined scan.
-    start_x_angle = original_start_angles[0] + position[0] * step_size
-    start_y_angle = original_start_angles[1] + position[1] * step_size
+    start_x_angle = start_x_angle[0] + position[0] * step_size
+    start_y_angle = start_y_angle[1] + position[1] * step_size
 
     # Conduct the refined scan
     max_strength, max_position = scan_matrix(matrix_size=matrix_size, step_size=step_size/10,  # finer step size
@@ -111,6 +111,6 @@ max_strength, max_position = scan_matrix(start_x_angle=start_x, start_y_angle=st
 
 print(f"Strongest signal at position: {max_position} with strength: {max_strength}")
 
-max_strength_refined, max_position_refined = refined_scan(max_position)
+max_strength_refined, max_position_refined = refined_scan(max_position, start_x_angle=start_x, start_y_angle=start_y)
 
 print(f"Refined strongest signal at position: {max_position_refined} with strength: {max_strength_refined}")
