@@ -36,7 +36,7 @@ def read_signal_strength():
     import random
     return random.random()
 
-def scan_matrix(repetitions=10, matrix_size=10, step_size=1):
+def scan_matrix(repetitions=10, matrix_size=10, step_size=1, start_x_angle=0, start_y_angle=0):
     """
     Moves the emitter across a matrix multiple times.
 
@@ -44,17 +44,25 @@ def scan_matrix(repetitions=10, matrix_size=10, step_size=1):
     - repetitions: The number of times the matrix will be scanned.
     - matrix_size: Size of the matrix (assuming it's a square matrix).
     - step_size: The angular size for a single step.
+    - start_x_angle: Starting angle for the X axis.
+    - start_y_angle: Starting angle for the Y axis.
     """
     max_strength = float('-inf')  # set to negative infinity initially
     max_position = (0, 0)
     
+    # Move to starting position
+    move_motor(start_x_angle, 15)
+    move_motor(start_y_angle, 14)
+    time.sleep(0.1)  # Give the emitter some time to move to starting position
+    
     for _ in range(repetitions):
         for y in range(matrix_size):
             for x in range(matrix_size):
+                # Use starting angles to adjust movement
                 if y % 2 == 0:  # Move right during even rows
-                    move_motor(x * step_size, 15)
+                    move_motor(start_x_angle + x * step_size, 15)
                 else:  # Move left during odd rows
-                    move_motor((matrix_size - x - 1) * step_size, 15)
+                    move_motor(start_x_angle + (matrix_size - x - 1) * step_size, 15)
                 
                 # Read the signal strength
                 current_strength = read_signal_strength()
@@ -67,12 +75,14 @@ def scan_matrix(repetitions=10, matrix_size=10, step_size=1):
                 time.sleep(0.1)  # Give the emitter some time to move (modify as needed)
             
             if y < matrix_size - 1:  # If not on the last row, move down
-                move_motor((y + 1) * step_size, 14)
+                move_motor(start_y_angle + (y + 1) * step_size, 14)
                 time.sleep(0.1)  # Give the emitter some time to move (modify as needed)
 
     return max_strength, max_position
 
-# Start the scan and get the results
-max_strength, max_position = scan_matrix()
+# Start the scan with custom starting angles and get the results
+start_x = 10  # example starting x-angle
+start_y = 5   # example starting y-angle
+max_strength, max_position = scan_matrix(start_x_angle=start_x, start_y_angle=start_y)
 
 print(f"Strongest signal at position: {max_position} with strength: {max_strength}")
