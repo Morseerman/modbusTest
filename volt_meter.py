@@ -1,24 +1,25 @@
-import smbus2
+import Adafruit_ADS1x15
 
-# Create an smbus2 object
-bus = smbus2.SMBus(1)
+# Create an ADS1115 ADC (16-bit) instance.
+adc = Adafruit_ADS1x15.ADS1115(address=0x49, busnum=1)
 
-# Replace with your voltmeter's I2C address
-voltmeter_address = 0x49  
+# Choose a gain of 1 for reading voltages from 0 to 4.09V.
+# Or pick a different gain to change the range of voltages that are read:
+#  - 2/3 = +/-6.144V
+#  - 1 = +/-4.096V
+#  - 2 = +/-2.048V
+#  - 4 = +/-1.024V
+#  - 8 = +/-0.512V
+#  - 16 = +/-0.256V
+GAIN = 1
 
-# Replace with the command to read voltage, check your voltmeter's datasheet
-read_voltage_command = 0x00  
+# Read the voltage on channel 0 (check your voltmeter's documentation to find the correct channel)
+voltage = adc.read_adc(0, gain=GAIN)
 
-# Send the command to read voltage
-bus.write_byte(voltmeter_address, read_voltage_command)
-
-# Read the voltage data (assuming 2 bytes, check your voltmeter's datasheet)
-voltage_data = bus.read_word_data(voltmeter_address, read_voltage_command)
-
-# Convert the data to voltage, check your voltmeter's datasheet for the conversion formula
-voltage = voltage_data * conversion_factor
+# Convert the raw ADC value to voltage
+# This conversion factor will depend on the gain chosen above
+conversion_factor = 4.096 / 32768
+voltage_volts = voltage * conversion_factor
 
 # Print the voltage
-print(f'Voltage: {voltage} V')
-
-bus.close()
+print(f'Voltage: {voltage_volts} V')
