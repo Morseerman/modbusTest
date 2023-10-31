@@ -36,7 +36,7 @@ def read_signal_strength():
     import random
     return random.random()
 
-def scan_matrix(repetitions=10, matrix_size=10, step_size=1, start_x_angle=0, start_y_angle=0):
+def scan_matrix(repetitions=10, matrix_size=10, step_size=1, start_x_angle=0, start_y_angle=90):
     """
     Moves the emitter across a matrix multiple times.
 
@@ -53,7 +53,7 @@ def scan_matrix(repetitions=10, matrix_size=10, step_size=1, start_x_angle=0, st
     # Move to starting position
     move_motor(start_x_angle, 15)
     move_motor(start_y_angle, 14)
-    time.sleep(0.1)  # Give the emitter some time to move to starting position
+    time.sleep(2)  # Give the emitter some time to move to starting position
     
     for _ in range(repetitions):
         for y in range(matrix_size):
@@ -80,9 +80,37 @@ def scan_matrix(repetitions=10, matrix_size=10, step_size=1, start_x_angle=0, st
 
     return max_strength, max_position
 
+def refined_scan(position, step_size=1, matrix_size=10):
+    """
+    Performs a refined scan centered around a given position.
+
+    Parameters:
+    - position: A tuple (x, y) indicating the position to center the refined scan around.
+    - step_size: The angular size for a single step.
+    - matrix_size: Size of the refined matrix.
+    """
+    # Calculate the start angles for the refined scan.
+    # The math here assumes you're scanning a matrix centered at 'position'
+    start_x_angle = position[0] * step_size - (matrix_size * step_size) / 2
+    start_y_angle = position[1] * step_size - (matrix_size * step_size) / 2
+
+    # Conduct the refined scan
+    max_strength, max_position = scan_matrix(matrix_size=matrix_size, step_size=step_size/10,  # finer step size
+                                             start_x_angle=start_x_angle, start_y_angle=start_y_angle)
+    
+    # Adjust the max_position to be relative to the larger matrix
+    refined_x = start_x_angle / step_size + max_position[0] / 10
+    refined_y = start_y_angle / step_size + max_position[1] / 10
+    
+    return max_strength, (refined_x, refined_y)
+
 # Start the scan with custom starting angles and get the results
 start_x = 10  # example starting x-angle
 start_y = 5   # example starting y-angle
 max_strength, max_position = scan_matrix(start_x_angle=start_x, start_y_angle=start_y)
 
 print(f"Strongest signal at position: {max_position} with strength: {max_strength}")
+
+max_strength_refined, max_position_refined = refined_scan(max_position)
+
+print(f"Refined strongest signal at position: {max_position_refined} with strength: {max_strength_refined}")

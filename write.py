@@ -20,7 +20,7 @@ def close_server():
 #                                               Setup
 
 # Define the serial port (ttyUSB0) and baudrate
-ser = ModbusSerialClient(method='rtu', port='/dev/ttyUSB2', baudrate=9600, parity='E', stopbits=1, bytestize=8, timeout=5.0)
+ser = ModbusSerialClient(method='rtu', port='/dev/ttyUSB0', baudrate=9600, parity='E', stopbits=1, bytestize=8, timeout=5.0)
 
 # Connect to the Modbus device
 if ser.connect():
