@@ -3,23 +3,20 @@ import Adafruit_ADS1x15
 # Create an ADS1115 ADC (16-bit) instance.
 adc = Adafruit_ADS1x15.ADS1115(address=0x49, busnum=1)
 
-# Choose a gain of 1 for reading voltages from 0 to 4.09V.
-# Or pick a different gain to change the range of voltages that are read:
-#  - 2/3 = +/-6.144V
-#  - 1 = +/-4.096V
-#  - 2 = +/-2.048V
-#  - 4 = +/-1.024V
-#  - 8 = +/-0.512V
-#  - 16 = +/-0.256V
+# Choose a gain of 1 for reading voltages from 0 to 4.096V.
 GAIN = 1
 
-# Read the voltage on channel 0 (check your voltmeter's documentation to find the correct channel)
-voltage = adc.read_adc(0, gain=GAIN)
+# Read the ADC value from channel 0
+adc_value = adc.read_adc(0, gain=GAIN)
 
-# Convert the raw ADC value to voltage
-# This conversion factor will depend on the gain chosen above
-conversion_factor = 4.096 / 32768
-voltage_volts = voltage * conversion_factor
+# Convert the ADC value to voltage
+# Note: The conversion factor is determined by the gain setting and the voltage divider ratio.
+# The formula for conversion_factor is: (4.096 / 32768) / (R2 / (R1 + R2))
+conversion_factor = (4.096 / 32768) / (20 / (10 + 20))
+voltage = adc_value * conversion_factor
 
-# Print the voltage
-print(f'Voltage: {voltage_volts} V')
+# Since the voltage was stepped down, multiply by the inverse of the voltage divider ratio to get the original voltage
+original_voltage = voltage * (10 + 20) / 20
+
+# Print the original voltage
+print(f'Battery Voltage: {original_voltage} V')
