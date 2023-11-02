@@ -22,4 +22,3 @@ while True:
     
     print('Channel 0 minus 1: {0} V'.format(voltage))
     time.sleep(0.5)
-

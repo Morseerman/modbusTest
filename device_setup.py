@@ -4,7 +4,9 @@ import subprocess
 # Dictionary to hold device information, including the motor.
 # You can add more devices later in the same format.
 DEVICES_INFO = {
-    'motor': {'idVendor': '0403', 'idProduct': '6001', 'serial': 'A60321EB'}
+    'motor': {'idVendor': '0403', 'idProduct': '6001', 'serial': 'A60321EB'},
+    'compass': {'idVendor': '0403', 'idProduct': '6001', 'serial': 'FTVIZSZU'}
+
 }
 
 UDEV_RULES_PATH = '/etc/udev/rules.d/99-usb-serial.rules'

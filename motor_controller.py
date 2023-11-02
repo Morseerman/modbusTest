@@ -107,12 +107,14 @@ def refined_scan(position, start_x_angle=0, start_y_angle=90, step_size=1, matri
     return max_strength, (refined_position_x, refined_position_y)
 
 # Start the scan with custom starting angles and get the results
-start_x = 10  # example starting x-angle
-start_y = 90   # example starting y-angle
-max_strength, max_position = scan_matrix(start_x_angle=start_x, start_y_angle=start_y)
+# start_x = 10  # example starting x-angle
+# start_y = 90   # example starting y-angle
+# max_strength, max_position = scan_matrix(start_x_angle=start_x, start_y_angle=start_y)
 
-print(f"Strongest signal at position: {max_position} with strength: {max_strength}")
+# print(f"Strongest signal at position: {max_position} with strength: {max_strength}")
 
-max_strength_refined, max_position_refined = refined_scan(max_position, start_x_angle=start_x, start_y_angle=start_y)
+# max_strength_refined, max_position_refined = refined_scan(max_position, start_x_angle=start_x, start_y_angle=start_y)
 
-print(f"Refined strongest signal at position: {max_position_refined} with strength: {max_strength_refined}")
+# print(f"Refined strongest signal at position: {max_position_refined} with strength: {max_strength_refined}")
+
+move_motor(90, 14)

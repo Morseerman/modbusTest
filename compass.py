@@ -33,7 +33,7 @@ def interpret_direction(compass_data):
 def read_compass():
     global latest_compass_data
 
-    serial_port = '/dev/ttyUSB1'
+    serial_port = '/dev/compass'
     baud_rate = 4800  
 
     try:
@@ -45,6 +45,7 @@ def read_compass():
                 
                 # Update the latest compass reading
                 latest_compass_data = extract_value_from_data(data)
+                print(latest_compass_data)
 
     except KeyboardInterrupt:
         print("Serial communication stopped.")
@@ -54,3 +55,5 @@ def read_compass():
 def get_latest_compass_data():
     direction = interpret_direction(latest_compass_data)
     return latest_compass_data + f"  ({direction})"
+
+read_compass()
