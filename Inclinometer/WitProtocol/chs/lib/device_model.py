@@ -116,7 +116,7 @@ class DeviceModel:
         # 先关闭端口
         self.closeDevice()
         try:
-            self.serialPort = serial.Serial(self.serialConfig.portName, self.serialConfig.baud, timeout=0.5)
+            self.serialPort = serial.Serial(self.serialConfig.portName, self.serialConfig.baud, rtscts=True, dsrdtr=True ,timeout=0.5)
             self.isOpen = True
             t = threading.Thread(target=self.readDataTh, args=("Data-Received-Thread",10,))          # 开启一个线程接收数据
             t.start()
