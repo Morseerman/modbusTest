@@ -117,4 +117,4 @@ def refined_scan(position, start_x_angle=0, start_y_angle=90, step_size=1, matri
 
 # print(f"Refined strongest signal at position: {max_position_refined} with strength: {max_strength_refined}")
 
-move_motor(90, 14)
+move_motor(0, 14)

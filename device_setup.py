@@ -5,7 +5,8 @@ import subprocess
 # You can add more devices later in the same format.
 DEVICES_INFO = {
     'motor': {'idVendor': '0403', 'idProduct': '6001', 'serial': 'A60321EB'},
-    'compass': {'idVendor': '0403', 'idProduct': '6001', 'serial': 'FTVIZSZU'}
+    'compass': {'idVendor': '0403', 'idProduct': '6010', 'serial': 'FTVIZSZU'},
+    'inclinometer': {'idVendor': '1a86', 'idProduct': '7523', 'serial': '0000:01:00.0'}
 
 }
 
