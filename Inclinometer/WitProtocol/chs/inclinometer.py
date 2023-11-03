@@ -173,7 +173,7 @@ def start_inclinometer():
     )
 
     if (platform.system().lower() == 'linux'):
-        device.serialConfig.portName = "/dev/ttyUSB3"   # Set serial port
+        device.serialConfig.portName = "/dev/inclinometer"   # Set serial port
     else:
         device.serialConfig.portName = "COM5"          # Set serial port
     device.serialConfig.baud = 9600                     # Set baud rate
