@@ -185,7 +185,7 @@ def start_inclinometer():
 
     
     startRecord()                                       # Start recording data
-    input()
+    
     device.closeDevice()
     endRecord()                                         # End recording data
 
