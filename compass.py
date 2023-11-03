@@ -56,4 +56,3 @@ def get_latest_compass_data():
     direction = interpret_direction(latest_compass_data)
     return latest_compass_data + f"  ({direction})"
 
-read_compass()
