@@ -2,38 +2,29 @@ Welcome to the Wit-Motion sample program
 
 初始化设备模型
 设备关闭了
-启动Data-Received-Thread
-No Return
-No Return
-Start recording data
+Traceback (most recent call last):
+  File "/usr/lib/python3/dist-packages/serial/serialposix.py", line 322, in open
+    self.fd = os.open(self.portstr, os.O_RDWR | os.O_NOCTTY | os.O_NONBLOCK)
+FileNotFoundError: [Errno 2] No such file or directory: '/dev/ttyUSB0'
 
-[Errno 9] Bad file descriptor
-[Errno 9] Bad file descriptor
-[Errno 9] Bad file descriptor
-[Errno 9] Bad file descriptor
-[Errno 9] Bad file descriptor
-[Errno 9] Bad file descriptor
-[Errno 9] Bad file descriptor
-[Errno 9] Bad file descriptor
-[Errno 9] Bad file descriptor
-[Errno 9] Bad file descriptor
-[Errno 9] Bad file descriptor
-[Errno 9] Bad file descriptor
-[Errno 9] Bad file descriptor
-[Errno 9] Bad file descriptor
-[Errno 9] Bad file descriptor
-[Errno 9] Bad file descriptor
-[Errno 9] Bad file descriptor
-[Errno 9] Bad file descriptor
-[Errno 9] Bad file descriptor
-[Errno 9] Bad file descriptor
-[Errno 9] Bad file descriptor
-argument must be an int, or have a fileno() method.
-argument must be an int, or have a fileno() method.
-argument must be an int, or have a fileno() method.
-argument must be an int, or have a fileno() method.
-端口关闭了
-argument must be an int, or have a fileno() method.
-设备关闭了
-File Closed
-暂停
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/stuart/Documents/work/modbusTest/Inclinometer/WitProtocol/chs/lib/device_model.py", line 119, in openDevice
+    self.serialPort = serial.Serial(self.serialConfig.portName, self.serialConfig.baud, timeout=0.5)
+  File "/usr/lib/python3/dist-packages/serial/serialutil.py", line 244, in __init__
+    self.open()
+  File "/usr/lib/python3/dist-packages/serial/serialposix.py", line 325, in open
+    raise SerialException(msg.errno, "could not open port {}: {}".format(self._port, msg))
+serial.serialutil.SerialException: [Errno 2] could not open port /dev/ttyUSB0: [Errno 2] No such file or directory: '/dev/ttyUSB0'
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "/home/stuart/Documents/work/modbusTest/Inclinometer/WitProtocol/chs/inclinometer.py", line 194, in <module>
+    start_inclinometer()
+  File "/home/stuart/Documents/work/modbusTest/Inclinometer/WitProtocol/chs/inclinometer.py", line 182, in start_inclinometer
+    device.openDevice()                                 # Open serial port
+  File "/home/stuart/Documents/work/modbusTest/Inclinometer/WitProtocol/chs/lib/device_model.py", line 124, in openDevice
+    print("打开" + self.serialConfig.portName + self.serialConfig.baud + "失败")
+TypeError: can only concatenate str (not "int") to str
