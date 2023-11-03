@@ -133,11 +133,11 @@ def startRecord():
     global _writeF
     global _IsWriteF
     
-    if _IsWriteF:
-        _writeF = open("inclinometer/data_files/" + str(datetime.datetime.now().strftime('%Y%m%d%H%M%S')) + ".txt", "w")  # Create a new file in specified directory
-        _IsWriteF = True                                                    # Mark write identification
+    if not _IsWriteF:  # Check if we are not already writing to a file
+        _writeF = open("Inclinometer/data_files/" + str(datetime.datetime.now().strftime('%Y%m%d%H%M%S')) + ".txt", "w")  # Create a new file in the specified directory
+        _IsWriteF = True  # Mark write identification
         Tempstr = "Chiptime"
-        Tempstr +=  "\tax(g)\tay(g)\taz(g)"
+        Tempstr += "\tax(g)\tay(g)\taz(g)"
         Tempstr += "\twx(deg/s)\twy(deg/s)\twz(deg/s)"
         Tempstr += "\tAngleX(deg)\tAngleY(deg)\tAngleZ(deg)"
         Tempstr += "\tT(°)"
@@ -150,15 +150,17 @@ def startRecord():
         print("Start recording data")
 
 def endRecord():
-    """
-    End recording data
-    :return:
-    """
     global _writeF
     global _IsWriteF
-    _IsWriteF = False             # Mark non-writable identification
-    _writeF.close()               # Close file
-    print("End recording data")
+    
+    if _IsWriteF and _writeF is not None:
+        _writeF.close()  # Close file
+        _writeF = None   # Reset the file handle to None
+        _IsWriteF = False  # Reset the flag to indicate we're no longer writing to a file
+        print('File Closed')
+    else:
+        print('No file to close')
+
 
 def start_inclinometer():
     print(welcome)
@@ -173,7 +175,7 @@ def start_inclinometer():
     )
 
     if (platform.system().lower() == 'linux'):
-        device.serialConfig.portName = "/dev/inclinometer"   # Set serial port
+        device.serialConfig.portName = "/dev/ttyUSB3"   # Set serial port
     else:
         device.serialConfig.portName = "COM5"          # Set serial port
     device.serialConfig.baud = 9600                     # Set baud rate
@@ -181,12 +183,6 @@ def start_inclinometer():
     readConfig(device)                                  # Read configuration information
     device.dataProcessor.onVarChanged.append(onUpdate)  # Data update event
 
-    print("CHOCOLATE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-    print("CHOCOLATE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-    print("CHOCOLATE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-    print("CHOCOLATE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-    print("CHOCOLATE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
-    print("CHOCOLATE!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!")
     
     startRecord()                                       # Start recording data
     input()
