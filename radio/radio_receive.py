@@ -2,6 +2,7 @@ import os
 import serial
 import time
 import platform
+import compass
 
 # Check the operating system
 system_name = platform.system()
@@ -34,8 +35,20 @@ try:
     while True:
         if ser.in_waiting > 0:
             # Read the incoming data. ser.readline() assumes that the incoming message ends with a newline character (\n).
-            incoming_data = ser.readline().decode('utf-8').rstrip().isupper()
+            incoming_data = ser.readline().decode('utf-8').rstrip().upper()
             print(f"Received data: {incoming_data}")
+
+            response = None
+
+            # Command is handled here
+            if incoming_data == "GET MAG COMPASS":
+                response = compass.read_compass_once()
+
+            # Incoming Response
+            ser.write(response.encode('utf-8'))
+            print(f"Sent response: {response.strip()}")
+
+            
 
 
 except KeyboardInterrupt:
