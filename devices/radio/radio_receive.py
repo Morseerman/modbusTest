@@ -45,11 +45,12 @@ try:
                 response = compass.read_compass_once()
             else:
                 response = "Invalid Command"
+                response = "Invalid Command"
 
             # Incoming Response
-            time.sleep(3)
-            ser.write((response + '\n').encode('utf-8'))
-            print(f"[SERVER]  {response.strip()}")
+            time.sleep(1.5)
+            ser.write(("[SERVER]: " + response + '\n').encode('utf-8'))
+            print(f"--->{response.strip()}")
 
             
 
