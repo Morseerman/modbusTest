@@ -2,7 +2,8 @@ import os
 import serial
 import time
 import platform
-import compass
+from devices import compass
+
 
 # Check the operating system
 system_name = platform.system()

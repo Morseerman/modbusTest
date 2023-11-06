@@ -1,10 +1,10 @@
 from flask import Flask, request, jsonify, render_template
 from pymodbus.client import ModbusSerialClient
-import motor_controller
-import read
+import devices.motor_controller
+import devices.read
 import threading
-import compass
-import Inclinometer.WitProtocol.chs.inclinometer as inclinometer
+import devices.compass
+import devices.Inclinometer.WitProtocol.chs.inclinometer as inclinometer
 
 app = Flask(__name__)
 app.static_folder = 'static'
