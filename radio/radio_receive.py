@@ -1,9 +1,25 @@
+import os
 import serial
 import time
+import platform
+
+# Check the operating system
+system_name = platform.system()
+
+# Define the baud rate
+baud_rate = 19600
+
+# Select the correct device path based on the operating system
+if system_name == 'Windows':
+    # Use the appropriate COM port on Windows
+    device_path = 'COM7'
+else:
+    # Use the appropriate device path on Unix/Linux-like operating systems
+    device_path = '/dev/radio'
 
 # Define the serial port and baud rate.
 # Ensure the '/dev/radio' is the correct path for your radio device.
-ser = serial.Serial('/dev/radio', 19600)
+ser = serial.Serial(device_path, 19600)
 
 # Check if the serial port is open, if not, open it.
 if not ser.is_open:
