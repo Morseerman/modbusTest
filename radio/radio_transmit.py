@@ -31,7 +31,7 @@ time.sleep(2)
 try:
     # Write the string 'hello world' to the radio.
     # The encode() method converts the string to bytes.
-    ser.write(b'\nThis works great')
+    ser.write(b'Saucey\n')
 
     # You might want to wait a bit for the data to be sent.
     time.sleep(1)
