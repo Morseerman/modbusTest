@@ -44,12 +44,12 @@ try:
             if incoming_data == "GET MAG COMPASS":
                 response = compass.read_compass_once()
             else:
-                response = "[SERVER] Invalid Command"
+                response = "Invalid Command"
 
             # Incoming Response
             time.sleep(3)
             ser.write((response + '\n').encode('utf-8'))
-            print(f"Sent response: {response.strip()}")
+            print(f"[SERVER]  {response.strip()}")
 
             
 

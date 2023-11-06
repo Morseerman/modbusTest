@@ -41,8 +41,12 @@ try:
 
         # You might want to wait a bit for the data to be sent.
         time.sleep(1)
-
         print("Message sent to the radio.")
+
+        print(f"awaiting response...")
+        response = ser.readline().decode('utf-8').rstrip()
+        print(f"Response: {response}")
+
 except Exception as e:
     print(f"An error occurred: {e}")
 finally:
