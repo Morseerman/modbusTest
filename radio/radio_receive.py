@@ -34,14 +34,9 @@ try:
     while True:
         if ser.in_waiting > 0:
             # Read the incoming data. ser.readline() assumes that the incoming message ends with a newline character (\n).
-            incoming_data = ser.readline().decode('utf-8').rstrip()
-
-            # Do something with the incoming data. For now, we'll just print it.
+            incoming_data = ser.readline().decode('utf-8').rstrip().isupper()
             print(f"Received data: {incoming_data}")
 
-            # You could include some condition to break the loop if necessary.
-            # For example, if incoming_data == "quit":
-            #     break
 
 except KeyboardInterrupt:
     print("Receiver terminated by user.")

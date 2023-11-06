@@ -29,14 +29,20 @@ if not ser.is_open:
 time.sleep(2)
 
 try:
-    # Write the string 'hello world' to the radio.
-    # The encode() method converts the string to bytes.
-    ser.write(b'Saucey\n')
+    input_string = None
+    while True:
+        input_string = input("Enter Command\n")
+        
+        if input_string.upper() == "EXIT":  
+            break
+        
+        input_string = (input_string + '\n').encode()
+        ser.write(input_string)
 
-    # You might want to wait a bit for the data to be sent.
-    time.sleep(1)
+        # You might want to wait a bit for the data to be sent.
+        time.sleep(1)
 
-    print("Message sent to the radio.")
+        print("Message sent to the radio.")
 except Exception as e:
     print(f"An error occurred: {e}")
 finally:
