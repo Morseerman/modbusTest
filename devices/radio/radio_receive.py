@@ -47,7 +47,8 @@ try:
                 response = "[SERVER] Invalid Command"
 
             # Incoming Response
-            ser.write(response.encode('utf-8'))
+            time.sleep(3)
+            ser.write((response + '\n').encode('utf-8'))
             print(f"Sent response: {response.strip()}")
 
             
