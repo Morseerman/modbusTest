@@ -20,7 +20,6 @@ else:
     device_path = '/dev/radio'
 
 # Define the serial port and baud rate.
-# Ensure the '/dev/radio' is the correct path for your radio device.
 ser = serial.Serial(device_path, 19600)
 
 # Check if the serial port is open, if not, open it.
@@ -44,6 +43,8 @@ try:
             # Command is handled here
             if incoming_data == "GET MAG COMPASS":
                 response = compass.read_compass_once()
+            else:
+                response = "[SERVER] Invalid Command"
 
             # Incoming Response
             ser.write(response.encode('utf-8'))
