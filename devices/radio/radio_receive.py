@@ -45,7 +45,6 @@ try:
                 response = compass.read_compass_once()
             else:
                 response = "Invalid Command"
-                response = "Invalid Command"
 
             # Incoming Response
             time.sleep(1.5)
