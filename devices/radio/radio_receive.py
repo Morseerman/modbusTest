@@ -3,7 +3,9 @@ import serial
 import time
 import platform
 from devices import compass
-
+from devices import motor_controller
+from devices.VoltMeter import volt_meter
+from devices.Inclinometer.WitProtocol.chs import inclinometer
 
 # Check the operating system
 system_name = platform.system()
@@ -41,14 +43,23 @@ try:
             response = None
 
             # Command is handled here
-            if incoming_data == "GET MAG COMPASS":
+            if incoming_data == "GET COMPASS":
                 response = compass.read_compass_once()
+            elif incoming_data == "ALIGN":
+                max_strength, max_position = motor_controller.scan_matrix(start_x_angle=0, start_y_angle=90)
+                response = f"Strongest signal at position: {max_position} with strength: {max_strength}"
+            elif incoming_data == "GET VOLTAGE":
+                response = volt_meter.get_voltage_once()
+            elif incoming_data == "GET INCLINOMETER":
+                response = inclinometer.get_angle_data()
+            elif incoming_data == "GET AIR PRESSURE":
+                response = inclinometer.get_pressure()
             else:
                 response = "Invalid Command"
 
             # Incoming Response
             time.sleep(1.5)
-            ser.write(("[SERVER]: " + response + '\n').encode('utf-8'))
+            ser.write(("[SLAVE]: " + response + '\n').encode('utf-8'))
             print(f"--->{response.strip()}")
 
             
