@@ -44,3 +44,5 @@ if ser.connect():
 else:
     print("Failed to connect to the Modbus device.")
 
+if __name__ == '__main__':
+    read_motor_position(14)

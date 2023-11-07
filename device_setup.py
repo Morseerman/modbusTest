@@ -3,7 +3,7 @@ import subprocess
 
 # Dictionary to hold device information
 DEVICES_INFO = {
-    'motor': {'idVendor': '0403', 'idProduct': '6001', 'serial': 'A60321EB'},
+    'motor': {'idVendor': '0403', 'idProduct': '6001', 'serial': 'A60321OT'},
     'compass': {'idVendor': '0403', 'idProduct': '6010', 'serial': 'FTVIZSZU'},
     'radio': {'idVendor': '0403', 'idProduct': '6015', 'serial': 'DJ009E6Y'},
     'inclinometer': {'idVendor': '1a86', 'idProduct': '7523', 'product': 'USB Serial'}

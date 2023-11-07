@@ -36,7 +36,7 @@ def read_signal_strength():
     import random
     return random.random()
 
-def scan_matrix(repetitions=1, matrix_size=10, step_size=1, start_x_angle=0, start_y_angle=90):
+def scan_matrix(repetitions=1, matrix_size=10, step_size=0.1, start_x_angle=0, start_y_angle=90):
     """
     Moves the emitter across a matrix multiple times.
 
@@ -51,8 +51,8 @@ def scan_matrix(repetitions=1, matrix_size=10, step_size=1, start_x_angle=0, sta
     max_position = (0, 0)
     
     # Move to starting position
-    move_motor(start_x_angle, 15)
-    move_motor(start_y_angle, 14)
+    move_motor(start_x_angle, 14)
+    move_motor(start_y_angle, 15)
     time.sleep(2)  # Give the emitter some time to move to starting position
     
     for _ in range(repetitions):
@@ -60,9 +60,9 @@ def scan_matrix(repetitions=1, matrix_size=10, step_size=1, start_x_angle=0, sta
             for x in range(matrix_size):
                 # Use starting angles to adjust movement
                 if y % 2 == 0:  # Move right during even rows
-                    move_motor(start_x_angle + x * step_size, 15)
+                    move_motor(start_x_angle + x * step_size, 14)
                 else:  # Move left during odd rows
-                    move_motor(start_x_angle + (matrix_size - x - 1) * step_size, 15)
+                    move_motor(start_x_angle + (matrix_size - x - 1) * step_size, 14)
                 
                 # Read the signal strength
                 current_strength = read_signal_strength()
@@ -75,7 +75,7 @@ def scan_matrix(repetitions=1, matrix_size=10, step_size=1, start_x_angle=0, sta
                 time.sleep(0.1)  # Give the emitter some time to move (modify as needed)
             
             if y < matrix_size - 1:  # If not on the last row, move down
-                move_motor(start_y_angle + (y + 1) * step_size, 14)
+                move_motor(start_y_angle + (y + 1) * step_size, 15)
                 time.sleep(0.1)  # Give the emitter some time to move (modify as needed)
 
     return max_strength, max_position
@@ -106,16 +106,17 @@ def refined_scan(position, start_x_angle=0, start_y_angle=90, step_size=1, matri
     
     return max_strength, (refined_position_x, refined_position_y)
 
-# Start the scan with custom starting angles and get the results
-# start_x = 10  # example starting x-angle
-# start_y = 90   # example starting y-angle
-# max_strength, max_position = scan_matrix(start_x_angle=start_x, start_y_angle=start_y)
-
-# print(f"Strongest signal at position: {max_position} with strength: {max_strength}")
-
-# max_strength_refined, max_position_refined = refined_scan(max_position, start_x_angle=start_x, start_y_angle=start_y)
-
-# print(f"Refined strongest signal at position: {max_position_refined} with strength: {max_strength_refined}")
 
 if __name__ == '__main__':
-    move_motor(0, 14)
+    # move_motor(285, 14)
+
+    # Start the scan with custom starting angles and get the results
+    start_x = 285  # example starting x-angle
+    start_y = 93   # example starting y-angle
+    max_strength, max_position = scan_matrix(start_x_angle=start_x, start_y_angle=start_y)
+
+    print(f"Strongest signal at position: {max_position} with strength: {max_strength}")
+
+    # max_strength_refined, max_position_refined = refined_scan(max_position, start_x_angle=start_x, start_y_angle=start_y)
+
+    # print(f"Refined strongest signal at position: {max_position_refined} with strength: {max_strength_refined}")
