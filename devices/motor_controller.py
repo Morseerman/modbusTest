@@ -1,4 +1,5 @@
 import time
+
 import write
 
 def degrees_to_steps(degrees):
