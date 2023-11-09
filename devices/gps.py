@@ -1,7 +1,6 @@
-import serial
-
-def process_gps_data(lines):
-    accumulated_result = {
+def process_gps_data(data):
+    lines = data.split('\n')  # Splitting the data into lines
+    result = {
         "Latitude": "Unknown",
         "Longitude": "Unknown",
         "Altitude": "Unknown",
@@ -11,19 +10,17 @@ def process_gps_data(lines):
     for line in lines:
         if '$KSXT' in line:
             parts = line.split(',')
-            accumulated_result["Latitude"] = parts[2]
-            accumulated_result["Longitude"] = parts[3]
-            accumulated_result["Altitude"] = parts[4] + " meters"
+            result["Latitude"] = parts[2]
+            result["Longitude"] = parts[3]
+            result["Altitude"] = parts[4] + " meters"
 
-        if '#UNIHEADINGA' in line:
+        elif '#UNIHEADINGA' in line:
             parts = line.split(',')
             sol_status = parts[1]
             pos_type = parts[2] + ', ' + parts[3]
-            accumulated_result["Signal Quality"] = f"Solution Status: {sol_status}, Position Type: {pos_type}"
+            result["Signal Quality"] = f"Solution Status: {sol_status}, Position Type: {pos_type}"
 
-    return accumulated_result
-
-
+    return result
 
 
 serial_port = '/dev/ttyUSB1'
