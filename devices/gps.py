@@ -38,7 +38,7 @@ try:
             data = ser.readline().decode('utf-8').strip()
             
             # Update the latest compass reading
-            print(process_gps_data(process_gps_data(data)))
+            print(process_gps_data(data))
 
 except KeyboardInterrupt:
     print("Serial communication stopped.")
