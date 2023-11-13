@@ -23,7 +23,7 @@ def read_motor_position(motor_id):
 
     # Check if the read operation was successful
     if not response.isError():           
-        print(f"Position: {response.registers[0]}")
+        print(f"Position in steps: {response.registers[0]}")
         return response.registers[0]
     else:
         print(f"Error reading register {0x1803}")
@@ -46,4 +46,5 @@ else:
 
 if __name__ == '__main__':
     # read_motor_position(15)
-    read_registers(0x1805, 1, 15)
+    # read_registers(0x1805, 1, 15)
+    pass

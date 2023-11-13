@@ -40,7 +40,7 @@ def test_small_increments():
         time.sleep(0.2)
 
 
-def scan_matrix(repetitions=1, matrix_size=100, step_size=0.1, start_x_angle=get_motor_angle(14), start_y_angle=get_motor_angle(15)):
+def scan_matrix(repetitions=1, matrix_size=10, step_size=0.1, start_x_angle=get_motor_angle(14), start_y_angle=get_motor_angle(15)):
    
     max_strength = float('-inf')  # set to negative infinity initially
     max_position = (0, 0)
@@ -80,18 +80,17 @@ def scan_matrix(repetitions=1, matrix_size=100, step_size=0.1, start_x_angle=get
 
 
 if __name__ == '__main__':
-    move_motor(90, 15)
-    print(f"angle: {get_motor_angle(15)}")
+    # move_motor(90, 15)
+    # print(f"angle: {get_motor_angle(15)}")
 
     # Start the scan with custom starting angles and get the results
     # start_x = 285  # example starting x-angle
     # start_y = 93   # example starting y-angle
-    # max_strength, max_position = scan_matrix()
-    # move_motor(max_position[0]/100, 14)
-    # move_motor(max_position[1]/100, 15)
+    max_strength, max_position = scan_matrix()
+    move_motor(max_position[0], 14)
+    move_motor(max_position[1], 15)
 
-    # print(f"Strongest signal at position: {max_position} with strength: {max_strength}")
+    print(f"Strongest signal at position: {max_position} with strength: {max_strength}")
 
-    # max_strength_refined, max_position_refined = refined_scan(max_position, start_x_angle=start_x, start_y_angle=start_y)
-
-    # print(f"Refined strongest signal at position: {max_position_refined} with strength: {max_strength_refined}")
+    # print(get_motor_angle(15))
+    pass
