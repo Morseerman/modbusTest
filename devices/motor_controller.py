@@ -1,8 +1,10 @@
 import time
 import write
+import read
+from VoltMeter import volt_meter
 
 def degrees_to_steps(degrees):
-    return round(degrees * 100)
+    return round(degrees * 200)
 
 def move_motor(angle, motor_id):   
     try:
@@ -30,23 +32,9 @@ def test_small_increments():
         write.write_to_register(0x79, 8) #This is the START command
         time.sleep(0.2)
 
-def read_signal_strength():
-    # Implement this function to return the signal strength as a number.
-    # For now, I'll just simulate it with a random number.
-    import random
-    return random.random()
 
-def scan_matrix(repetitions=1, matrix_size=10, step_size=0.1, start_x_angle=0, start_y_angle=90):
-    """
-    Moves the emitter across a matrix multiple times.
-
-    Parameters:
-    - repetitions: The number of times the matrix will be scanned.
-    - matrix_size: Size of the matrix (assuming it's a square matrix).
-    - step_size: The angular size for a single step.
-    - start_x_angle: Starting angle for the X axis.
-    - start_y_angle: Starting angle for the Y axis.
-    """
+def scan_matrix(repetitions=1, matrix_size=10, step_size=0.1, start_x_angle=read.read_motor_position(14)/100, start_y_angle=read.read_motor_position(15)/100):
+   
     max_strength = float('-inf')  # set to negative infinity initially
     max_position = (0, 0)
     
@@ -58,19 +46,21 @@ def scan_matrix(repetitions=1, matrix_size=10, step_size=0.1, start_x_angle=0, s
     for _ in range(repetitions):
         for y in range(matrix_size):
             for x in range(matrix_size):
+                time.sleep(1.5)
+                # Read the signal strength
+                current_strength = volt_meter.get_voltage_once()
+
                 # Use starting angles to adjust movement
                 if y % 2 == 0:  # Move right during even rows
                     move_motor(start_x_angle + x * step_size, 14)
                 else:  # Move left during odd rows
                     move_motor(start_x_angle + (matrix_size - x - 1) * step_size, 14)
-                
-                # Read the signal strength
-                current_strength = read_signal_strength()
+            
                 
                 # Update if this is the strongest signal seen so far
                 if current_strength > max_strength:
                     max_strength = current_strength
-                    max_position = (x, y)
+                    max_position = (read.read_motor_position(14), read.read_motor_position(15))
                 
                 time.sleep(0.1)  # Give the emitter some time to move (modify as needed)
             
@@ -78,6 +68,7 @@ def scan_matrix(repetitions=1, matrix_size=10, step_size=0.1, start_x_angle=0, s
                 move_motor(start_y_angle + (y + 1) * step_size, 15)
                 time.sleep(0.1)  # Give the emitter some time to move (modify as needed)
 
+    print("Scan complete")
     return max_strength, max_position
 
 def refined_scan(position, start_x_angle=0, start_y_angle=90, step_size=1, matrix_size=10):
@@ -108,14 +99,16 @@ def refined_scan(position, start_x_angle=0, start_y_angle=90, step_size=1, matri
 
 
 if __name__ == '__main__':
-    # move_motor(285, 14)
+    move_motor(30, 14)
 
     # Start the scan with custom starting angles and get the results
-    start_x = 285  # example starting x-angle
-    start_y = 93   # example starting y-angle
-    max_strength, max_position = scan_matrix(start_x_angle=start_x, start_y_angle=start_y)
+    # start_x = 285  # example starting x-angle
+    # start_y = 93   # example starting y-angle
+    # max_strength, max_position = scan_matrix()
+    # move_motor(max_position[0]/100, 14)
+    # move_motor(max_position[1]/100, 15)
 
-    print(f"Strongest signal at position: {max_position} with strength: {max_strength}")
+    # print(f"Strongest signal at position: {max_position} with strength: {max_strength}")
 
     # max_strength_refined, max_position_refined = refined_scan(max_position, start_x_angle=start_x, start_y_angle=start_y)
 

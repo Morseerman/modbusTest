@@ -1,9 +1,9 @@
 from flask import Flask, request, jsonify, render_template
 from pymodbus.client import ModbusSerialClient
-import devices.motor_controller
+from devices import motor_controller
 from devices import read
 import threading
-import devices.compass
+from devices import compass
 import devices.Inclinometer.WitProtocol.chs.inclinometer as inclinometer
 
 app = Flask(__name__)
@@ -56,14 +56,13 @@ def get_inclinometer_data():
     return jsonify(inclinometer_angle_data=angle_data, inclinometer_air_pressure_data=air_pressure_data)
 
 
-if __name__ == '__main__':
-    # Start compass reading in a separate thread
-    compass_thread = threading.Thread(target=compass.read_compass)
-    compass_thread.start()
+# Start compass reading in a separate thread
+compass_thread = threading.Thread(target=compass.read_compass)
+compass_thread.start()
 
-    inclinometer_thread = threading.Thread(target=inclinometer.start_inclinometer)
-    inclinometer_thread.start()
+inclinometer_thread = threading.Thread(target=inclinometer.start_inclinometer)
+inclinometer_thread.start()
 
-    #Start Flask application
-    app.run(host='0.0.0.0', port=5000)
+#Start Flask application
+app.run(host='0.0.0.0', port=5000)
 

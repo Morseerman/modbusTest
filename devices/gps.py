@@ -1,12 +1,15 @@
-def process_gps_data(data):
-    lines = data.split('\n')  # Splitting the data into lines
-    result = {
+import serial
+
+result = {
         "Latitude": "Unknown",
         "Longitude": "Unknown",
         "Altitude": "Unknown",
         "Signal Quality": "Unknown"
     }
 
+def process_gps_data(data):
+    lines = data.split('\n')  # Splitting the data into lines
+    
     for line in lines:
         if '$KSXT' in line:
             parts = line.split(',')
@@ -14,7 +17,7 @@ def process_gps_data(data):
             result["Longitude"] = parts[3]
             result["Altitude"] = parts[4] + " meters"
 
-        elif '#UNIHEADINGA' in line:
+        if '#UNIHEADINGA' in line:
             parts = line.split(',')
             sol_status = parts[1]
             pos_type = parts[2] + ', ' + parts[3]

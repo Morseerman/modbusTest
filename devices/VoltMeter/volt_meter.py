@@ -33,8 +33,8 @@ def get_voltage_once():
         
         # Apply the custom scaling factor
         voltage = voltage / CUSTOM_SCALING_FACTOR
-        
-        return ('Channel 0 minus 1: {0} V'.format(voltage))
+        print(voltage)
+        return (voltage)
 
 if __name__ == '__main__':
     get_voltage()
