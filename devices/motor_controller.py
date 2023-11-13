@@ -40,7 +40,7 @@ def test_small_increments():
         time.sleep(0.2)
 
 
-def scan_matrix(repetitions=1, matrix_size=10, step_size=0.1, start_x_angle=read.read_motor_position(14)/100, start_y_angle=read.read_motor_position(15)/100):
+def scan_matrix(repetitions=1, matrix_size=100, step_size=0.1, start_x_angle=get_motor_angle(14), start_y_angle=get_motor_angle(15)):
    
     max_strength = float('-inf')  # set to negative infinity initially
     max_position = (0, 0)
@@ -53,7 +53,7 @@ def scan_matrix(repetitions=1, matrix_size=10, step_size=0.1, start_x_angle=read
     for _ in range(repetitions):
         for y in range(matrix_size):
             for x in range(matrix_size):
-                time.sleep(1.5)
+                time.sleep(1)
                 # Read the signal strength
                 current_strength = volt_meter.get_voltage_once()
 
@@ -67,7 +67,7 @@ def scan_matrix(repetitions=1, matrix_size=10, step_size=0.1, start_x_angle=read
                 # Update if this is the strongest signal seen so far
                 if current_strength > max_strength:
                     max_strength = current_strength
-                    max_position = (read.read_motor_position(14), read.read_motor_position(15))
+                    max_position = (get_motor_angle(14), get_motor_angle(15))
                 
                 time.sleep(0.1)  # Give the emitter some time to move (modify as needed)
             
@@ -77,32 +77,6 @@ def scan_matrix(repetitions=1, matrix_size=10, step_size=0.1, start_x_angle=read
 
     print("Scan complete")
     return max_strength, max_position
-
-def refined_scan(position, start_x_angle=0, start_y_angle=90, step_size=1, matrix_size=10):
-    """
-    Performs a refined scan centered around a given position.
-
-    Parameters:
-    - position: A tuple (x, y) indicating the position to center the refined scan around (in terms of matrix indices).
-    - original_start_angles: A tuple (x, y) indicating the starting angles of the original scan.
-    - step_size: The angular size for a single step.
-    - matrix_size: Size of the refined matrix.
-    """
-    # Calculate the start angles for the refined scan.
-    start_x_angle = start_x_angle + position[0] * step_size
-    start_y_angle = start_y_angle + position[1] * step_size
-
-    # Conduct the refined scan
-    max_strength, max_position = scan_matrix(matrix_size=matrix_size, step_size=step_size/10,  # finer step size
-                                             start_x_angle=start_x_angle, start_y_angle=start_y_angle)
-    
-    # Adjust the max_position to be relative to the original matrix
-    # refined_x = start_x_angle / step_size + max_position[0] / 10
-    # refined_y = start_y_angle / step_size + max_position[1] / 10
-    refined_position_x = position[0] + max_position[0] / 10
-    refined_position_y = position[1] + max_position[1] / 10
-    
-    return max_strength, (refined_position_x, refined_position_y)
 
 
 if __name__ == '__main__':
