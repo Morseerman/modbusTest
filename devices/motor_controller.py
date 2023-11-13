@@ -3,8 +3,15 @@ import write
 import read
 from VoltMeter import volt_meter
 
+
 def degrees_to_steps(degrees):
     return round(degrees * 200)
+
+def steps_to_degrees(degrees):
+    return round(degrees / 200)
+
+def get_motor_angle(motor_id):
+    return steps_to_degrees(read.read_motor_position(motor_id))
 
 def move_motor(angle, motor_id):   
     try:
@@ -99,7 +106,8 @@ def refined_scan(position, start_x_angle=0, start_y_angle=90, step_size=1, matri
 
 
 if __name__ == '__main__':
-    move_motor(30, 14)
+    move_motor(90, 15)
+    print(f"angle: {get_motor_angle(15)}")
 
     # Start the scan with custom starting angles and get the results
     # start_x = 285  # example starting x-angle

@@ -17,13 +17,13 @@ def index():
 
 @app.route('/get_position')
 def get_position():  
-    response_14 = read.read_motor_position(14)
-    response_15 = read.read_motor_position(15)
+    response_14 = motor_controller.get_motor_angle(14)
+    response_15 = motor_controller.get_motor_angle(15)
 
     if response_14 is None or response_15 is None:
         return jsonify(error="Error reading from one or both motors"), 500
 
-    return jsonify(motor_14_position=response_14 / 100, motor_15_position=response_15 / 100)    
+    return jsonify(motor_14_position=response_14, motor_15_position=response_15)    
 
 @app.route('/set_position', methods=['POST'])
 def set_position():

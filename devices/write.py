@@ -12,6 +12,8 @@ def write_to_register(register_address, value_to_write, motor_id):
             # Extract the value from the response
             print(f"Successfully wrote {value_to_write} to register {register_address}")
            
+def set_motor_speed(speed, motor_id):
+    write_to_register(0x1805, speed, motor_id)
 
 def close_server():
     ser.close
@@ -27,3 +29,6 @@ if ser.connect():
     print("Connected Succesfully")
 else:
     print("Failed to connect to the Modbus device.")
+
+if __name__ == '__main__':
+    pass
