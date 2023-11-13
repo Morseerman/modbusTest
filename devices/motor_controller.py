@@ -42,11 +42,14 @@ def test_small_increments():
 def print_ascii_matrix(current_x, current_y, matrix_size):
     for y in range(matrix_size):
         for x in range(matrix_size):
-            if x == current_x and y == current_y:
+            adjusted_x = x if y % 2 == 0 else matrix_size - 1 - x
+
+            if adjusted_x == current_x and y == current_y:
                 print('X', end=' ')
             else:
                 print('-', end=' ')
         print()  # New line at the end of each row
+
 
 def scan_matrix(repetitions=1, matrix_size=10, step_size=0.1, center_x_angle=get_motor_angle(14), center_y_angle=get_motor_angle(15)):
    
@@ -65,7 +68,7 @@ def scan_matrix(repetitions=1, matrix_size=10, step_size=0.1, center_x_angle=get
     for _ in range(repetitions):
         for y in range(matrix_size):
             for x in range(matrix_size):
-                print(f"X: {get_motor_angle(14)}, Y: {get_motor_angle(15)}")
+                print(f"X: {get_motor_angle(14)}, Y: {get_motor_angle}")
                 print_ascii_matrix(x, y, matrix_size)
 
                 time.sleep(1)
