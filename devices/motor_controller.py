@@ -39,18 +39,25 @@ def test_small_increments():
         write.write_to_register(0x79, 8) #This is the START command
         time.sleep(0.2)
 
-def print_ascii_matrix(current_x, current_y, matrix_size):
+def print_ascii_matrix(current_x, current_y, matrix_size, scan_mode):
     for y in range(matrix_size):
         for x in range(matrix_size):
-            adjusted_x = x if y % 2 == 0 else matrix_size - 1 - x
+            # Adjust position based on the scanning mode
+            if scan_mode == 'x':
+                adjusted_y = y if x % 2 == 0 else matrix_size - 1 - y
+                is_current_position = x == current_x and adjusted_y == current_y
+            elif scan_mode == 'y':
+                adjusted_x = x if y % 2 == 0 else matrix_size - 1 - x
+                is_current_position = adjusted_x == current_x and y == current_y
 
-            if adjusted_x == current_x and y == current_y:
+            if is_current_position:
                 print('X', end=' ')
             else:
                 print('-', end=' ')
         print()  # New line at the end of each row
 
-def scan_matrix(repetitions=1, matrix_size=10, step_size=0.1, center_x_angle=get_motor_angle(14), center_y_angle=get_motor_angle(15)):
+
+def scan_matrix_rows(repetitions=1, matrix_size=10, step_size=0.1, center_x_angle=get_motor_angle(14), center_y_angle=get_motor_angle(15)):
    
     max_strength = float('-inf')  # set to negative infinity initially
     max_position = (0, 0)
@@ -72,7 +79,7 @@ def scan_matrix(repetitions=1, matrix_size=10, step_size=0.1, center_x_angle=get
         for y in range(matrix_size):
             for x in range(matrix_size):
                 print(f"X: {get_motor_angle(14)}, Y: {get_motor_angle(15)}")
-                print_ascii_matrix(x, y, matrix_size)
+                print_ascii_matrix(x, y, matrix_size, 'x')
 
                 time.sleep(1)
                 # Read the signal strength
@@ -104,9 +111,65 @@ def scan_matrix(repetitions=1, matrix_size=10, step_size=0.1, center_x_angle=get
         return None
     else:
         print(f"Strongest signal at position: {max_position} with strength: {max_strength}")
-        print_ascii_matrix(max_x, max_y, matrix_size)
+        print_ascii_matrix(max_x, max_y, matrix_size, 'x')
         return max_position
 
+def scan_matrix_columns(repetitions=1, matrix_size=10, step_size=0.1, center_x_angle=get_motor_angle(14), center_y_angle=get_motor_angle(15)):
+   
+    max_strength = float('-inf')  # set to negative infinity initially
+    max_position = (0, 0)
+    max_x = None
+    max_y = None
+
+    # Calculate the starting position, offset from the center
+    start_x_angle = center_x_angle - (matrix_size / 2 * step_size)
+    start_y_angle = center_y_angle - (matrix_size / 2 * step_size)
+    
+    print(f"X: {get_motor_angle(14)}, Y: {get_motor_angle(15)}")
+
+    # Move to the new starting position
+    move_motor(start_x_angle, 14)
+    move_motor(start_y_angle, 15)
+    time.sleep(5)  # Give the emitter some time to move to starting position
+    
+    for _ in range(repetitions):
+        for x in range(matrix_size):
+            for y in range(matrix_size):
+                print(f"X: {get_motor_angle(14)}, Y: {get_motor_angle(15)}")
+                print_ascii_matrix(x, y, matrix_size, 'y')
+
+                time.sleep(1)
+                # Read the signal strength
+                current_strength = volt_meter.get_voltage_once()
+
+                # Adjust motor movements based on column (X) and row (Y)
+                if x % 2 == 0:  # Move down during even columns
+                    move_motor(start_y_angle + y * step_size, 15)
+                else:  # Move up during odd columns
+                    move_motor(start_y_angle + (matrix_size - y - 1) * step_size, 15)
+            
+                # Update if this is the strongest signal seen so far
+                if current_strength > max_strength:
+                    max_strength = current_strength
+                    max_position = (get_motor_angle(14), get_motor_angle(15))
+                    max_x = x
+                    max_y = y
+                
+                time.sleep(0.1)  # Give the emitter some time to move (modify as needed)
+            
+            # Move X motor to the side one step after completing each column
+            move_motor(start_x_angle + x * step_size, 14)
+            time.sleep(0.1)  # Give the emitter some time to move (modify as needed)
+
+    print("Scan complete")
+
+    if max_strength < 0.1:
+        print("No signal Found")
+        return None
+    else:
+        print(f"Strongest signal at position: {max_position} with strength: {max_strength}")
+        print_ascii_matrix(max_x, max_y, matrix_size, 'y')
+        return max_position
 
 
 if __name__ == '__main__':
@@ -115,7 +178,7 @@ if __name__ == '__main__':
     # print(f"angle: {get_motor_angle(15)}")
 
     # Start the scan with custom starting angles and get the results
-    max_position = scan_matrix(step_size=0.01)
+    max_position = scan_matrix_rows(step_size=0.01)
     move_motor(max_position[0], 14)
     move_motor(max_position[1], 15)
 
