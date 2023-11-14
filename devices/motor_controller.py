@@ -8,7 +8,7 @@ def degrees_to_steps(degrees):
     return round(degrees * 200)
 
 def steps_to_degrees(degrees):
-    return round(degrees / 200)
+    return degrees / 200
 
 def get_motor_angle(motor_id):
     return steps_to_degrees(read.read_motor_position(motor_id))
@@ -50,25 +50,28 @@ def print_ascii_matrix(current_x, current_y, matrix_size):
                 print('-', end=' ')
         print()  # New line at the end of each row
 
-
 def scan_matrix(repetitions=1, matrix_size=10, step_size=0.1, center_x_angle=get_motor_angle(14), center_y_angle=get_motor_angle(15)):
    
     max_strength = float('-inf')  # set to negative infinity initially
     max_position = (0, 0)
+    max_x = None
+    max_y = None
 
     # Calculate the starting position, offset from the center
     start_x_angle = center_x_angle - (matrix_size / 2 * step_size)
     start_y_angle = center_y_angle - (matrix_size / 2 * step_size)
     
+    print(f"X: {get_motor_angle(14)}, Y: {get_motor_angle(15)}")
+
     # Move to the new starting position
     move_motor(start_x_angle, 14)
     move_motor(start_y_angle, 15)
-    time.sleep(2)  # Give the emitter some time to move to starting position
+    time.sleep(5)  # Give the emitter some time to move to starting position
     
     for _ in range(repetitions):
         for y in range(matrix_size):
             for x in range(matrix_size):
-                print(f"X: {get_motor_angle(14)}, Y: {get_motor_angle}")
+                print(f"X: {get_motor_angle(14)}, Y: {get_motor_angle(15)}")
                 print_ascii_matrix(x, y, matrix_size)
 
                 time.sleep(1)
@@ -85,6 +88,8 @@ def scan_matrix(repetitions=1, matrix_size=10, step_size=0.1, center_x_angle=get
                 if current_strength > max_strength:
                     max_strength = current_strength
                     max_position = (get_motor_angle(14), get_motor_angle(15))
+                    max_x = x
+                    max_y = y
                 
                 time.sleep(0.1)  # Give the emitter some time to move (modify as needed)
             
@@ -93,22 +98,26 @@ def scan_matrix(repetitions=1, matrix_size=10, step_size=0.1, center_x_angle=get
             time.sleep(0.1)  # Give the emitter some time to move (modify as needed)
 
     print("Scan complete")
-    return max_strength, max_position
+
+    if max_strength < 0.1:
+        print("No signal Found")
+        return None
+    else:
+        print(f"Strongest signal at position: {max_position} with strength: {max_strength}")
+        print_ascii_matrix(max_x, max_y, matrix_size)
+        return max_position
 
 
 
 if __name__ == '__main__':
-    # move_motor(90, 15)
+    # print(f"angle: {get_motor_angle(15)}")
+    # move_motor(90, 14)
     # print(f"angle: {get_motor_angle(15)}")
 
     # Start the scan with custom starting angles and get the results
-    # start_x = 285  # example starting x-angle
-    # start_y = 93   # example starting y-angle
-    max_strength, max_position = scan_matrix()
+    max_position = scan_matrix(step_size=0.01)
     move_motor(max_position[0], 14)
     move_motor(max_position[1], 15)
-
-    print(f"Strongest signal at position: {max_position} with strength: {max_strength}")
 
     # print(get_motor_angle(15))
     pass

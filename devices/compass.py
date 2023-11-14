@@ -79,4 +79,5 @@ def get_latest_compass_data():
     return latest_compass_data + f"  ({direction})"
 
 if __name__ == '__main__':
-    read_compass_once()
+
+    print(interpret_direction(read_compass()))
