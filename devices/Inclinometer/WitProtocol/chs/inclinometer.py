@@ -102,6 +102,9 @@ angle_data = {'x': None, 'y': None, 'z': None}
 pressure = None
 
 def get_angle_data():
+    return angle_data
+
+def get_angle_data_string():
     global angle_data
     print("--------->" + str(angle_data['x']) + " ~~~~ "  + str(angle_data['y']) + " ~~~~ " + str(angle_data['z']) + "  Pressure: " + str(pressure))
     return "X: " + str(angle_data['x']) + "  Y: "  + str(angle_data['y']) + "  X: " + str(angle_data['z'])
@@ -109,6 +112,29 @@ def get_angle_data():
 def get_pressure():
     global pressure
     return str(pressure)
+
+
+def calculate_altitude(temperature, pressure=get_pressure()):
+
+    import math
+
+    # Constants
+    PRESSURE_SEA_LEVEL = 1013.25 # average sea level pressure in hPa
+
+    """
+    Calculate altitude from air pressure.
+    :param pressure: Air pressure in hPa
+    :param temperature: Temperature in Celsius
+    :return: Altitude in meters
+    """
+    # Convert temperature to Kelvin
+    temperature += 273.15
+
+    # Barometric formula
+    altitude = (temperature / 0.0065) * ((pressure / PRESSURE_SEA_LEVEL) ** (-0.0065 * 287.05 / 9.80665) - 1)
+
+    return altitude
+
 
 def onUpdate(deviceModel):
     """

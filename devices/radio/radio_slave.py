@@ -2,10 +2,12 @@ import os
 import serial
 import time
 import platform
+import json
 from devices import compass
 from devices import motor_controller
 from devices.VoltMeter import volt_meter
 from devices.Inclinometer.WitProtocol.chs import inclinometer
+from devices import gps
 
 # Check the operating system
 system_name = platform.system()
@@ -54,6 +56,21 @@ try:
                 response = inclinometer.get_angle_data()
             elif incoming_data == "GET AIR PRESSURE":
                 response = inclinometer.get_pressure()
+            elif incoming_data == "GET DATA":
+                data = {
+                    "compass": compass.read_compass_once(),
+                    "inclinometer": inclinometer.get_angle_data(),
+                    "gps": gps.get_gps_data()
+                }
+                response = json.dumps(data)
+            elif "MOVE X" in incoming_data:
+                split_data = incoming_data.split(':')
+                angle_to_move = split_data[1].strip()
+                motor_controller.move_motor(int(angle_to_move), 14)
+            elif "MOVE Y" in incoming_data:
+                split_data = incoming_data.split(':')
+                angle_to_move = split_data[1].strip()
+                motor_controller.move_motor(int(angle_to_move), 15)
             else:
                 response = "Invalid Command"
 
@@ -61,9 +78,6 @@ try:
             time.sleep(1.5)
             ser.write(("[SLAVE]: " + response + '\n').encode('utf-8'))
             print(f"--->{response.strip()}")
-
-            
-
 
 except KeyboardInterrupt:
     print("Receiver terminated by user.")
