@@ -102,9 +102,9 @@ angle_data = {'x': None, 'y': None, 'z': None}
 pressure = None
 
 def  zero_angle_data():
-    zero_x = -67.6
-    zero_y = -85.54
-    zero_z = 41.46
+    zero_x = -32
+    zero_y = -86.86
+    zero_z = 66.25
     angle_data['x'] = round(angle_data['x'] + zero_x, 2)
     angle_data['y'] = round(angle_data['y'] + zero_y, 2) * -1
     angle_data['z'] = round(angle_data['z'] + zero_z, 2)
@@ -116,7 +116,7 @@ def get_angle_data_string():
     global angle_data
     total = str(angle_data['x'] + angle_data['y'] + angle_data['z'])
     print("--------->" + str(angle_data['x']) + " ~~~~ "  + str(angle_data['y']) + " ~~~~ " + str(angle_data['z']) + "  Pressure: " + str(pressure))
-    return "-X: " + str(angle_data['x']) + "   -Y: "  + str(angle_data['y']) + "   -Z: " + str(angle_data['z'] + "   -Total: " + total)
+    return "-X: " + str(angle_data['x']) + "   -Y: "  + str(angle_data['y']) + "   -Z: " + str(angle_data['z']) + "   -Total: " + total
 
 def get_pressure():
     global pressure
