@@ -60,7 +60,6 @@ def set_inclonometer_angle_data_0():
     try:
         inclinometer.set_zero_data()
         
-        return jsonify(status="success", message=f"Set motor {motor_id} angle to {angle} degrees")
 
     except Exception as e:
         return jsonify(status="error", message=str(e))
