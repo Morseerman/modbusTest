@@ -55,6 +55,16 @@ def get_inclinometer_data():
     print(angle_data + "<------")
     return jsonify(inclinometer_angle_data=angle_data, inclinometer_air_pressure_data=air_pressure_data)
 
+@app.route('/set_0', methods=['POST'])
+def set_inclonometer_angle_data_0():
+    try:
+        inclinometer.set_zero_data()
+        
+        return jsonify(status="success", message=f"Set motor {motor_id} angle to {angle} degrees")
+
+    except Exception as e:
+        return jsonify(status="error", message=str(e))
+
 
 # Start compass reading in a separate thread
 compass_thread = threading.Thread(target=compass.read_compass)

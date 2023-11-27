@@ -101,10 +101,15 @@ def onUpdateAll(deviceModel):
 angle_data = {'x': None, 'y': None, 'z': None}
 pressure = None
 
-def  zero_angle_data():
-    zero_x = -32
-    zero_y = -86.86
-    zero_z = 66.25
+def set_zero_data():
+    zero_x = angle_data['x'] = round(angle_data['x']) * -1
+    zero_y = angle_data['y'] = round(angle_data['y']) * -1
+    zero_z = angle_data['z'] = round(angle_data['z']) * -1
+
+zero_x = 0
+zero_y = 0
+zero_z = 0
+def zero_angle_data():
     angle_data['x'] = round(angle_data['x'] + zero_x, 2)
     angle_data['y'] = round(angle_data['y'] + zero_y, 2) * -1
     angle_data['z'] = round(angle_data['z'] + zero_z, 2)
