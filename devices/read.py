@@ -30,6 +30,19 @@ def read_motor_position(motor_id):
         print(response)
         return None
     
+def read_motor_speed(motor_id):
+    # Read from the register
+    response = ser.read_holding_registers(0x1805, 1, motor_id)
+
+    # Check if the read operation was successful
+    if not response.isError():           
+        print(f"Position in steps: {response.registers[0]}")
+        return response.registers[0]
+    else:
+        print(f"Error reading register {0x1803}")
+        print(response)
+        return None
+    
     
 
 #-----------------------------------------------------------------------------------------------------------
@@ -45,6 +58,6 @@ else:
     print("Failed to connect to the Modbus device.")
 
 if __name__ == '__main__':
-    read_motor_position(15)
-    # read_registers(0x1805, 1, 15)
+    read_motor_position(14)
+    # read_motor_speed(15)
     pass

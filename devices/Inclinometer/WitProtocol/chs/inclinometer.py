@@ -101,10 +101,18 @@ def onUpdateAll(deviceModel):
 angle_data = {'x': None, 'y': None, 'z': None}
 pressure = None
 
+def  zero_angle_data():
+    zero_x = -67.6
+    zero_y = -85.54
+    zero_z = 41.46
+    angle_data['x'] = round(angle_data['x'] + zero_x, 2)
+    angle_data['y'] = round(angle_data['y'] + zero_y, 2) * -1
+    angle_data['z'] = round(angle_data['z'] + zero_z, 2)
+
 def get_angle_data():
     global angle_data
     print("--------->" + str(angle_data['x']) + " ~~~~ "  + str(angle_data['y']) + " ~~~~ " + str(angle_data['z']) + "  Pressure: " + str(pressure))
-    return "X: " + str(angle_data['x']) + "  Y: "  + str(angle_data['y']) + "  X: " + str(angle_data['z'])
+    return "-X: " + str(angle_data['x']) + "   -Y: "  + str(angle_data['y']) + "   -Z: " + str(angle_data['z'])
 
 def get_pressure():
     global pressure
@@ -122,14 +130,11 @@ def onUpdate(deviceModel):
         'y': deviceModel.getDeviceData("angleY"),
         'z': deviceModel.getDeviceData("angleZ")
     }
+    zero_angle_data()
 
     global pressure
     pressure = deviceModel.getDeviceData("pressure")
-    # print("Angle:"
-    #       " X:" + str(angle_data['x']) +
-    #       ", Y:" + str(angle_data['y']) +
-    #       ", Z:" + str(angle_data['z'])
-    #       )
+   
 
 def startRecord():
     """

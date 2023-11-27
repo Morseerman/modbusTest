@@ -4,6 +4,7 @@ result = {
         "Latitude": "Unknown",
         "Longitude": "Unknown",
         "Altitude": "Unknown",
+        "Compass": "Unknown",
         "Signal Quality": "Unknown"
     }
 
@@ -21,12 +22,13 @@ def process_gps_data(data):
             parts = line.split(',')
             sol_status = parts[1]
             pos_type = parts[2] + ', ' + parts[3]
+            result["Compass"] = parts[12]
             result["Signal Quality"] = f"Solution Status: {sol_status}, Position Type: {pos_type}"
 
     return result
 
 
-serial_port = '/dev/ttyUSB1'
+serial_port = '/dev/ttyUSB2'
 baud_rate = 921600  
 
 try:
@@ -38,6 +40,8 @@ try:
             
             # Update the latest compass reading
             print(process_gps_data(data))
+            # print(data)
+            
 
 except KeyboardInterrupt:
     print("Serial communication stopped.")
