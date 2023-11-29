@@ -35,9 +35,9 @@ time.sleep(2)
 
 try:
     print("Listening for incoming data...")
-
     while True:
         if ser.in_waiting > 0:
+            
             # Read the incoming data. ser.readline() assumes that the incoming message ends with a newline character (\n).
             incoming_data = ser.readline().decode('utf-8').rstrip().upper()
             print(f"Received data: {incoming_data}")
@@ -67,10 +67,12 @@ try:
                 split_data = incoming_data.split(':')
                 angle_to_move = split_data[1].strip()
                 motor_controller.move_motor(int(angle_to_move), 14)
+                response = f"Moved to angle {angle_to_move}"
             elif "MOVE Y" in incoming_data:
                 split_data = incoming_data.split(':')
                 angle_to_move = split_data[1].strip()
                 motor_controller.move_motor(int(angle_to_move), 15)
+                response = f"Moved to angle {angle_to_move}"
             else:
                 response = "Invalid Command"
 
@@ -78,6 +80,8 @@ try:
             time.sleep(1.5)
             ser.write(("[SLAVE]: " + response + '\n').encode('utf-8'))
             print(f"--->{response.strip()}")
+            print("Listening for incoming data...")
+
 
 except KeyboardInterrupt:
     print("Receiver terminated by user.")

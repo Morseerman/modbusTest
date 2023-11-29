@@ -22,8 +22,7 @@ def read_motor_position(motor_id):
     response = ser.read_holding_registers(0x1803, 1, motor_id)
 
     # Check if the read operation was successful
-    if not response.isError():           
-        print(f"Position in steps: {response.registers[0]}")
+    if not response.isError():          
         return response.registers[0]
     else:
         print(f"Error reading register {0x1803}")
