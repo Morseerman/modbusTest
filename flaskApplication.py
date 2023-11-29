@@ -62,6 +62,7 @@ def set_inclonometer_angle_data_0():
         
 
     except Exception as e:
+        print(e)
         return jsonify(status="error", message=str(e))
 
 

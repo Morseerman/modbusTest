@@ -57,3 +57,7 @@ def send_command(command):
     finally:
         # Close the serial connection.
         ser.close()
+
+if __name__ == '__main__':
+    send_command("move x: 50")
+    pass

@@ -99,29 +99,33 @@ def onUpdateAll(deviceModel):
         _writeF.write(Tempstr)
 
 angle_data = {'x': None, 'y': None, 'z': None}
+modified_angle_data = {'x': None, 'y': None, 'z': None}
 pressure = None
 
 def set_zero_data():
-    zero_x = angle_data['x'] = round(angle_data['x']) * -1
-    zero_y = angle_data['y'] = round(angle_data['y']) * -1
-    zero_z = angle_data['z'] = round(angle_data['z']) * -1
+    global zero_x
+    global zero_y
+    global zero_z
+    zero_x = round(angle_data['x'] * -1, 2)
+    zero_y = round(angle_data['y'] * -1, 2)
+    zero_z = round(angle_data['z'] * -1, 2)
 
 zero_x = 0
 zero_y = 0
 zero_z = 0
 def zero_angle_data():
-    angle_data['x'] = round(angle_data['x'] + zero_x, 2)
-    angle_data['y'] = round(angle_data['y'] + zero_y, 2) * -1
-    angle_data['z'] = round(angle_data['z'] + zero_z, 2)
+    modified_angle_data['x'] = round(angle_data['x'] + zero_x, 2)
+    modified_angle_data['y'] = round(angle_data['y'] + zero_y, 2)
+    modified_angle_data['z'] = round(angle_data['z'] + zero_z, 2)
 
 def get_angle_data():
-    return angle_data
+    return modified_angle_data
 
 def get_angle_data_string():
-    global angle_data
-    total = str(angle_data['x'] + angle_data['y'] + angle_data['z'])
-    print("--------->" + str(angle_data['x']) + " ~~~~ "  + str(angle_data['y']) + " ~~~~ " + str(angle_data['z']) + "  Pressure: " + str(pressure))
-    return "-X: " + str(angle_data['x']) + "   -Y: "  + str(angle_data['y']) + "   -Z: " + str(angle_data['z']) + "   -Total: " + total
+    global modified_angle_data
+    total = str(round(modified_angle_data['x'] + modified_angle_data['y'] + modified_angle_data['z'], 2))
+    print("--------->" + str(modified_angle_data['x']) + " ~~~~ "  + str(modified_angle_data['y']) + " ~~~~ " + str(modified_angle_data['z']) + "  Pressure: " + str(pressure))
+    return "-X: " + str(modified_angle_data['x']) + "   -Y: "  + str(modified_angle_data['y']) + "   -Z: " + str(modified_angle_data['z']) + "   -Total: " + total
 
 def get_pressure():
     global pressure
