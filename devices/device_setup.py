@@ -6,7 +6,8 @@ DEVICES_INFO = {
     'motor': {'idVendor': '0403', 'idProduct': '6001'},
     'compass': {'idVendor': '0403', 'idProduct': '6010'},
     'radio': {'idVendor': '0403', 'idProduct': '6015'},
-    'inclinometer': {'idVendor': '1a86', 'idProduct': '7523'}
+    'inclinometer': {'idVendor': '1a86', 'idProduct': '7523'},
+    'gps': {'idVendor': '0403', 'idProduct': '6010'}
 }
 
 UDEV_RULES_PATH = '/etc/udev/rules.d/99-usb-serial.rules'
