@@ -12,11 +12,11 @@ DEVICES_INFO = {
 
 UDEV_RULES_PATH = '/etc/udev/rules.d/99-usb-serial.rules'
 
-def create_udev_rule(name, idVendor, idProduct):
-    rule = (
-        f'SUBSYSTEM=="tty", ATTRS{{idVendor}}=="{idVendor}", ATTRS{{idProduct}}=="{idProduct}", '
-        f'SYMLINK+="{name}"\n'
-    )
+def create_udev_rule(name, idVendor, idProduct, use_kernel=False):
+    if use_kernel:
+        rule = f'KERNEL=="ttyUSB*", ATTRS{{idVendor}}=="{idVendor}", ATTRS{{idProduct}}=="{idProduct}", SYMLINK+="{name}"\n'
+    else:
+        rule = f'SUBSYSTEM=="tty", ATTRS{{idVendor}}=="{idVendor}", ATTRS{{idProduct}}=="{idProduct}", SYMLINK+="{name}"\n'
     return rule
 
 def write_udev_rules(rules):
@@ -31,7 +31,16 @@ def main():
     if os.geteuid() != 0:
         exit("You need root privileges to run this script.")
 
-    udev_rules = [create_udev_rule(name, **attributes) for name, attributes in DEVICES_INFO.items()]
+    seen_combinations = set()
+    udev_rules = []
+
+    for name, attributes in DEVICES_INFO.items():
+        combo = (attributes['idVendor'], attributes['idProduct'])
+        use_kernel = combo in seen_combinations
+        seen_combinations.add(combo)
+
+        rule = create_udev_rule(name, **attributes, use_kernel=use_kernel)
+        udev_rules.append(rule)
 
     write_udev_rules(udev_rules)
     reload_udev_rules()
