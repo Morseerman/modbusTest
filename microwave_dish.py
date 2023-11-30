@@ -60,7 +60,7 @@ class MicrowaveDish:
         adjustment = self.adjust_orientation(float(compass.read_compass_once()), bearing_to_target)
         adjusted_position = motor_controller.get_motor_angle(14) - adjustment
         print(f"adjustment: {adjustment}  adjusted position: {adjusted_position}  current motor position: {motor_controller.get_motor_angle(14)}")
-        # motor_controller.move_motor(adjusted_position, 14)  # Adjust azimuth (x-axis)
+        motor_controller.move_motor(adjusted_position, 14)  # Adjust azimuth (x-axis)
 
     def align_elevation(self, current_data, target_data, horizontal_distance):
         """
@@ -108,10 +108,16 @@ class MicrowaveDish:
     def adjust_orientation(self, current_orientation, target_bearing):
         """
         Calculate the adjustment needed for the current orientation to align with the target bearing.
+        Positive adjustment indicates a clockwise movement, and negative indicates counterclockwise.
         """
         adjustment = target_bearing - current_orientation
-        adjustment = (adjustment + 360) % 360
+        if adjustment > 180:
+            adjustment -= 360  # Move counterclockwise
+        elif adjustment < -180:
+            adjustment += 360  # Move clockwise
+
         return adjustment
+
 
     def calculate_elevation_angle(self, current_alt, target_alt, horizontal_distance):
         """

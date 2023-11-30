@@ -22,7 +22,7 @@ def move_motor(angle, motor_id):
         lower_register_value = degrees_to_steps(angle % max_number_for_register)
         write.write_to_register(0x1802, upper_register_value, motor_id)
         write.write_to_register(0x1803, lower_register_value, motor_id)
-
+        
         
         write.write_to_register(0x79, 8, motor_id) #This is the START command
 
