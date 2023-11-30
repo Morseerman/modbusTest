@@ -18,23 +18,23 @@ def read_registers(register_address, number_of_registers, motor_id):
     return response
     
 def read_motor_position(motor_id):
-    # Read from the register
-    max_register_value = 65535
-    higher_register = ser.read_holding_registers(0x1802, 1, motor_id)
-    lower_register = ser.read_holding_registers(0x1803, 1, motor_id)
-    
-    test1 = (higher_register.registers[0] * max_register_value)
-    test2 = lower_register.registers[0]
+    try:
+        # Read from the register
+        max_register_value = 65536
+        higher_register = ser.read_holding_registers(0x1802, 1, motor_id)
+        lower_register = ser.read_holding_registers(0x1803, 1, motor_id)
 
-    response = (higher_register.registers[0] * max_register_value) + lower_register.registers[0]
+        response = (higher_register.registers[0] * max_register_value) + lower_register.registers[0]
 
-    # Check if the read operation was successful
-    if not higher_register.isError() and not lower_register.isError():          
-        return response
-    else:
-        print(f"Error reading register {0x1802} or {0x1803}")
-        print(response)
-        return None
+        # Check if the read operation was successful
+        if not higher_register.isError() and not lower_register.isError():          
+            return response
+        else:
+            print(f"Error reading register {0x1802} or {0x1803}")
+            print(response)
+            return None
+    except:
+        print("ERROR! Lost connection to modbus")
     
 def read_motor_speed(motor_id):
     # Read from the register

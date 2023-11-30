@@ -44,7 +44,6 @@ def read_compass_once():
             
             # Update the latest compass reading
             latest_compass_data = extract_value_from_data(data)
-            print(latest_compass_data)
             return latest_compass_data
 
     except KeyboardInterrupt:
