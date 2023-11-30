@@ -180,7 +180,7 @@ def scan_matrix_columns(repetitions=1, matrix_size=10, step_size=0.1, center_x_a
 
 
 if __name__ == '__main__':
-    move_motor(360, 15)
+    move_motor(350, 15)
     print(get_motor_angle(15))
 
     # Start the scan with custom starting angles and get the results
