@@ -1,3 +1,4 @@
+import math
 import time
 import write
 import read
@@ -13,9 +14,17 @@ def steps_to_degrees(degrees):
 def get_motor_angle(motor_id):
     return steps_to_degrees(read.read_motor_position(motor_id))
 
-def move_motor(angle, motor_id):   
+# soft limit currently 327.67
+def move_motor(angle, motor_id):  
+    max_number_for_register = 327.67 
     try:
-        write.write_to_register(0x1803, degrees_to_steps(angle), motor_id)
+        
+        upper_register_value = math.floor(angle / max_number_for_register)
+        lower_register_value = degrees_to_steps(angle % max_number_for_register)
+        write.write_to_register(0x1802, upper_register_value, motor_id)
+        write.write_to_register(0x1803, lower_register_value, motor_id)
+
+        
         write.write_to_register(0x79, 8, motor_id) #This is the START command
 
     except Exception as e:
@@ -171,8 +180,8 @@ def scan_matrix_columns(repetitions=1, matrix_size=10, step_size=0.1, center_x_a
 
 
 if __name__ == '__main__':
+    move_motor(360, 15)
     print(get_motor_angle(15))
-    move_motor(0, 15)
 
     # Start the scan with custom starting angles and get the results
     # max_position = scan_matrix_columns(step_size=0.01)

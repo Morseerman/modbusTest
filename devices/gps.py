@@ -48,7 +48,7 @@ def process_gps_data(data):
     return result
 
 if __name__ == '__main__':
-    serial_port = '/dev/ttyUSB3'
+    serial_port = '/dev/ttyUSB2'
     baud_rate = 921600  
 
     try:

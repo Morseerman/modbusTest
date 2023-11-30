@@ -57,6 +57,6 @@ else:
     print("Failed to connect to the Modbus device.")
 
 if __name__ == '__main__':
-    read_motor_position(14)
+    print(read_motor_position(15))
     # read_motor_speed(15)
     pass

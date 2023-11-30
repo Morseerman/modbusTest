@@ -55,7 +55,7 @@ def read_compass_once():
 def read_compass():
     global latest_compass_data
 
-    serial_port = '/dev/ttyUSB2'
+    serial_port = '/dev/compass'
     baud_rate = 4800  
 
     try:

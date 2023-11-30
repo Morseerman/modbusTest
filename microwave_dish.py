@@ -1,5 +1,5 @@
 import math
-from devices.motor_controller import move_motor
+from devices import motor_controller
 from devices.radio import radio_master
 from devices import compass
 from devices.Inclinometer.WitProtocol.chs import inclinometer
@@ -58,14 +58,14 @@ class MicrowaveDish:
         """
         bearing_to_target = self.calculate_bearing(current_data["gps"], target_data["gps"])
         adjustment = self.adjust_orientation(current_data["compass"], bearing_to_target)
-        move_motor(adjustment, 14)  # Adjust azimuth (x-axis)
+        motor_controller.move_motor(adjustment, 14)  # Adjust azimuth (x-axis)
 
     def align_elevation(self, current_data, target_data, horizontal_distance):
         """
         Align the elevation of the dish towards the target.
         """
         elevation_angle = self.calculate_elevation_angle(current_data["gps"]["alt"], target_data["gps"]["alt"], horizontal_distance)
-        move_motor(elevation_angle, 15)  # Adjust elevation (y-axis)
+        motor_controller.move_motor(elevation_angle, 15)  # Adjust elevation (y-axis)
 
     def calculate_horizontal_distance(self, current_gps, target_gps):
         """
@@ -93,7 +93,7 @@ class MicrowaveDish:
         """
         Calculate the compass bearing from the current dish to the target.
         """
-        lat1, lon1, lat2, lon2 = current_gps["lat"], current_gps["long"], target_gps["lat"], target_gps["long"]
+        lat1, lon1, lat2, lon2 = target_gps["lat"], target_gps["long"], current_gps["lat"], current_gps["long"]
         lat1, lon1, lat2, lon2 = map(math.radians, [lat1, lon1, lat2, lon2])
         dLon = lon2 - lon1
         x = math.sin(dLon) * math.cos(lat2)
@@ -122,8 +122,21 @@ class MicrowaveDish:
         """
         Send a command to move the slave dish along a specified axis by a certain angle.
         """
-        if axis == 'X' or axis == 14:
+        if axis.upper() == 'X' or axis == 14:
             radio_master.send_command(f"MOVE X: {angle}")
-        elif axis == 'Y' or axis == 15:
+        elif axis.upper() == 'Y' or axis == 15:
             radio_master.send_command(f"MOVE Y: {angle}")
 
+target_gps = {
+    'lat' : -1.883196,
+    "long": 51.773461
+}
+
+current_gps = {
+    'lat': -1.88363343,
+    'long': 51.77374322
+}
+
+print("bearing...")
+microwave = MicrowaveDish("slave")
+print(microwave.calculate_bearing(current_gps, target_gps)) 
