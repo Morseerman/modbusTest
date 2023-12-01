@@ -54,8 +54,11 @@ def get_compass_once():
 
         data = ser.readline().decode('utf-8').strip()
         process_gps_data(data)
-        compensated_angle = float(result["Compass"]) 
-        return compensated_angle
+        compensated_angle = float(result["Compass"]) + 90
+        if compensated_angle >= 360:
+
+        return compensated_angle 
+    
     
 
 if __name__ == '__main__':
