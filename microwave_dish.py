@@ -70,8 +70,7 @@ class MicrowaveDish:
         Align the azimuth of the dish towards the target.
         """
         bearing_to_target = 360 - bearing_from_master 
-        print("gpscompass -> " + (str(gps.get_compass_once())) + "   -magcompass " + str(compass.read_compass_once()))
-        adjustment = self.adjust_orientation(float(gps.get_compass_once()), bearing_to_target)
+        adjustment = self.adjust_orientation(float(inclinometer.get_angle_data()['z']), bearing_to_target)
         adjusted_position = motor_controller.get_motor_angle(14) - adjustment
         print(f"adjustment: {adjustment}  adjusted position: {adjusted_position}  current motor position: {motor_controller.get_motor_angle(14)}")
         motor_controller.move_motor(adjusted_position, 14)  # Adjust azimuth (x-axis)
