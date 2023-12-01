@@ -56,6 +56,7 @@ def get_compass_once():
         process_gps_data(data)
         compensated_angle = float(result["Compass"]) + 90
         if compensated_angle >= 360:
+            compensated_angle -= 360
 
         return compensated_angle 
     
