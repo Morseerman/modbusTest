@@ -52,7 +52,7 @@ try:
                 split_data = incoming_data.split(':')
                 bearing = split_data[1].strip()
                 slave_dish = microwave_dish.MicrowaveDish("slave")
-                slave_dish.align_azimuth_slave(int(bearing))
+                slave_dish.align_azimuth_slave(float(bearing))
                 response = "Initial alignment complete"
             elif incoming_data == "GET VOLTAGE":
                 response = volt_meter.get_voltage_once()
