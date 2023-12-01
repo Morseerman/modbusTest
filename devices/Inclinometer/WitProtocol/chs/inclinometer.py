@@ -121,6 +121,14 @@ def zero_angle_data():
 def get_angle_data():
     return modified_angle_data
 
+def get_compass_once():
+    compass_value = float(modified_angle_data['z'])
+    # Adjusting the compass value to be in the range of 0 to 360
+    if compass_value < 0:
+        compass_value += 360
+    return compass_value
+
+
 def get_angle_data_string():
     global modified_angle_data
     total = str(round(modified_angle_data['x'] + modified_angle_data['y'] + modified_angle_data['z'], 2))
