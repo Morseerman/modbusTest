@@ -15,4 +15,4 @@ current_gps = {
 print("bearing...")
 microwave = microwave_dish.MicrowaveDish("master")
 
-microwave.align_azimuth( target_gps)
+microwave.align_azimuth(current_gps, target_gps)
