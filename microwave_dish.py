@@ -63,7 +63,7 @@ class MicrowaveDish:
         print(f"adjustment: {adjustment}  adjusted position: {adjusted_position}  current motor position: {motor_controller.get_motor_angle(14)}")
         # motor_controller.move_motor(adjusted_position, 14)  # Adjust azimuth (x-axis)
     
-    def align_azimuth(self, bearing_from_master):
+    def align_azimuth_slave(self, bearing_from_master):
         """
         Align the azimuth of the dish towards the target.
         """
