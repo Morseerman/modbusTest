@@ -48,7 +48,7 @@ try:
             # Command is handled here
             if incoming_data == "GET COMPASS":
                 response = compass.read_compass_once()
-            elif incoming_data == "ALIGN BEARING":
+            elif "ALIGN BEARING" in incoming_data:
                 split_data = incoming_data.split(':')
                 bearing = split_data[1].strip()
                 slave_dish = microwave_dish.MicrowaveDish("slave")
