@@ -57,10 +57,11 @@ class MicrowaveDish:
         Align the azimuth of the dish towards the target.
         """
         bearing_to_target = self.calculate_bearing(current_data, target_data)
-        adjustment = self.adjust_orientation(float(compass.read_compass_once()), bearing_to_target)
+        print("gpscompass -> " + (str(gps.get_compass_once())) + "   -magcompass " + str(compass.read_compass_once()))
+        adjustment = self.adjust_orientation(float(gps.get_compass_once()), bearing_to_target)
         adjusted_position = motor_controller.get_motor_angle(14) - adjustment
         print(f"adjustment: {adjustment}  adjusted position: {adjusted_position}  current motor position: {motor_controller.get_motor_angle(14)}")
-        motor_controller.move_motor(adjusted_position, 14)  # Adjust azimuth (x-axis)
+        # motor_controller.move_motor(adjusted_position, 14)  # Adjust azimuth (x-axis)
 
     def align_elevation(self, current_data, target_data, horizontal_distance):
         """
@@ -126,7 +127,7 @@ class MicrowaveDish:
         elevation_difference = target_alt - current_alt
         return math.degrees(math.atan2(elevation_difference, horizontal_distance))
 
-    def move_slave(self, axis, angle):
+    def move_slave(self, angle, axis):
         """
         Send a command to move the slave dish along a specified axis by a certain angle.
         """

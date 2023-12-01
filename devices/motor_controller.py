@@ -179,8 +179,8 @@ def scan_matrix_columns(repetitions=1, matrix_size=10, step_size=0.1, center_x_a
 
 
 if __name__ == '__main__':
-    move_motor(460, 14)
-    # print(get_motor_angle(14))
+    move_motor(550, 14)
+    print(get_motor_angle(14))
 
     # Start the scan with custom starting angles and get the results
     # max_position = scan_matrix_columns(step_size=0.01)

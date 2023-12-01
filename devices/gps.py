@@ -45,10 +45,21 @@ def process_gps_data(data):
             result["Compass"] = parts[12]
             result["Signal Quality"] = f"Solution Status: {sol_status}, Position Type: {pos_type}"
 
-    return result
+    
+
+def get_compass_once():
+    serial_port = '/dev/ttyUSB1'
+    baud_rate = 921600  
+    with serial.Serial(serial_port, baud_rate, timeout=1) as ser:
+
+        data = ser.readline().decode('utf-8').strip()
+        process_gps_data(data)
+        compensated_angle = float(result["Compass"]) 
+        return compensated_angle
+    
 
 if __name__ == '__main__':
-    serial_port = '/dev/gps'
+    serial_port = '/dev/ttyUSB1'
     baud_rate = 921600  
 
     try:
@@ -59,7 +70,9 @@ if __name__ == '__main__':
                 data = ser.readline().decode('utf-8').strip()
                 
                 # Update the latest compass reading
-                print(process_gps_data(data))
+                process_gps_data(data)
+            
+                print(get_compass_once())
 
     except KeyboardInterrupt:
         print("Serial communication stopped.")
