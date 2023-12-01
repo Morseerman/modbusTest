@@ -122,7 +122,9 @@ def get_angle_data():
     return modified_angle_data
 
 def get_compass_once():
-    compass_value = float(modified_angle_data['z'])
+
+    compass_value = (angle_data['z'])
+    compass_value = float(compass_value)
     # Adjusting the compass value to be in the range of 0 to 360
     if compass_value < 0:
         compass_value += 360
@@ -239,6 +241,7 @@ def start_inclinometer():
         print(f"An error occurred: {e}")
     startRecord()                                       # Start recording data
     input()
+
     device.closeDevice()
     endRecord()                                         # End recording data
 
