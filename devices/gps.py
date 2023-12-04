@@ -9,7 +9,7 @@ result = {
     }
 
 def get_gps_data():
-    serial_port = '/dev/ttyUSB1'
+    serial_port = '/dev/ttyUSB3'
     baud_rate = 921600  
 
     try:
@@ -48,7 +48,7 @@ def process_gps_data(data):
     
 
 def get_compass_once():
-    serial_port = '/dev/ttyUSB1'
+    serial_port = '/dev/gps'
     baud_rate = 921600  
     with serial.Serial(serial_port, baud_rate, timeout=1) as ser:
 
@@ -63,7 +63,7 @@ def get_compass_once():
     
 
 if __name__ == '__main__':
-    serial_port = '/dev/ttyUSB1'
+    serial_port = '/dev/ttyUSB3'
     baud_rate = 921600  
 
     try:
@@ -76,7 +76,7 @@ if __name__ == '__main__':
                 # Update the latest compass reading
                 process_gps_data(data)
             
-                print(get_compass_once())
+                print(result)
 
     except KeyboardInterrupt:
         print("Serial communication stopped.")
