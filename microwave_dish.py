@@ -1,4 +1,5 @@
 import math
+import time
 from devices import motor_controller
 from devices.radio import radio_master
 from devices import compass
@@ -70,13 +71,15 @@ class MicrowaveDish:
         """
         Align the azimuth of the dish towards the target.
         """
-        bearing_to_target = 360 - bearing_from_master 
+        bearing_to_target = 180 + bearing_from_master 
         inclinometer_thread = threading.Thread(target=inclinometer.start_inclinometer)
         inclinometer_thread.start()
+        time.sleep(8)
         adjustment = self.adjust_orientation(inclinometer.get_compass_once(), bearing_to_target)
-        adjusted_position = motor_controller.get_motor_angle(14) - adjustment
-        print(f"adjustment: {adjustment}  adjusted position: {adjusted_position}  current motor position: {motor_controller.get_motor_angle(14)}")
+        adjusted_position = motor_controller.get_motor_angle(14) + adjustment
         motor_controller.move_motor(adjusted_position, 14)  # Adjust azimuth (x-axis)
+        print(f"adjustment: {adjustment}  adjusted position: {adjusted_position}  current motor position: {motor_controller.get_motor_angle(14)} Current Compass Angle: {str(inclinometer.get_compass_once())}")
+        return (f"adjustment: {adjustment}  adjusted position: {adjusted_position}  current motor position: {motor_controller.get_motor_angle(14)} Current Compass Angle: {str(inclinometer.get_compass_once())}")
 
     def align_elevation(self, current_data, target_data, horizontal_distance):
         """
