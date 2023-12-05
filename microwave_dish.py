@@ -84,10 +84,23 @@ class MicrowaveDish:
         """
         elevation_angle = self.calculate_elevation_angle(current_data["alt"], target_data["alt"], horizontal_distance)
         print(elevation_angle)
-        # motor_controller.move_motor(elevation_angle, 15)  # Adjust elevation (y-axis)
+
+        motor_angle_horizontal = 500
+        adjustment_angle = motor_angle_horizontal + elevation_angle
+        motor_controller.move_motor(adjustment_angle, 15)  # Adjust elevation (y-axis)
+
+    def align_elevation_slave(self, elevation_angle_master):
+        motor_angle_horizontal = 90
+
+        elevation_angle = elevation_angle_master * -1
+
+        adjustment_angle = motor_angle_horizontal + elevation_angle
+
+        motor_controller.move_motor(adjustment_angle, 15)  # Adjust elevation (y-axis)
+
 
     def calculate_horizontal_distance(self, current_gps, target_gps):
-        """g
+        """
         Calculate the horizontal distance between the current dish and the target using the Haversine formula.
         """
         return self.haversine(current_gps["lat"], current_gps["long"], target_gps["lat"], target_gps["long"])

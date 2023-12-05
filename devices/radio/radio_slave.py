@@ -54,6 +54,12 @@ try:
                 slave_dish = microwave_dish.MicrowaveDish("slave")
                 slave_dish.align_azimuth_slave(float(bearing))
                 response = "Initial alignment complete"
+            elif "ALIGN ELEVATION" in incoming_data:
+                split_data = incoming_data.split(':')
+                elevation_angle = split_data[1].strip()
+                slave_dish = microwave_dish.MicrowaveDish("slave")
+                slave_dish.align_elevation_slave(float(elevation_angle))
+                response = "Initial alignment complete"
             elif incoming_data == "GET VOLTAGE":
                 response = volt_meter.get_voltage_once()
             elif incoming_data == "GET INCLINOMETER":
