@@ -61,7 +61,7 @@ class MicrowaveDish:
         # print("gpscompass -> " + (str(gps.get_compass_once())) + "   -magcompass " + str(compass.read_compass_once()))
         adjustment = self.adjust_orientation(float(gps.get_compass_once()), bearing_to_target)
         adjusted_position = motor_controller.get_motor_angle(14) - adjustment
-        print(f"adjustment: {adjustment}  adjusted position: {adjusted_position}  current motor position: {motor_controller.get_motor_angle(14)}")
+        print(f"adjustment: {adjustment}  adjusted position: {adjusted_position}  current motor position: {motor_controller.get_motor_angle(14)}  Current Compass position: {gps.get_compass_once()}")
         # motor_controller.move_motor(adjusted_position, 14)  # Adjust azimuth (x-axis)
         radio_master.send_command(f"ALIGN BEARING: {str(bearing_to_target)}")
 
@@ -82,11 +82,12 @@ class MicrowaveDish:
         """
         Align the elevation of the dish towards the target.
         """
-        elevation_angle = self.calculate_elevation_angle(current_data["gps"]["alt"], target_data["gps"]["alt"], horizontal_distance)
-        motor_controller.move_motor(elevation_angle, 15)  # Adjust elevation (y-axis)
+        elevation_angle = self.calculate_elevation_angle(current_data["alt"], target_data["alt"], horizontal_distance)
+        print(elevation_angle)
+        # motor_controller.move_motor(elevation_angle, 15)  # Adjust elevation (y-axis)
 
     def calculate_horizontal_distance(self, current_gps, target_gps):
-        """
+        """g
         Calculate the horizontal distance between the current dish and the target using the Haversine formula.
         """
         return self.haversine(current_gps["lat"], current_gps["long"], target_gps["lat"], target_gps["long"])
