@@ -58,7 +58,7 @@ def print_ascii_matrix(current_x, current_y, matrix_size, scan_mode):
                 print('X', end=' ')
             else:
                 print('-', end=' ')
-        print()  # New line at the end of each row
+        print()  # New line at the end of each row.
 
 
 
