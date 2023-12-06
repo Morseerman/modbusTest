@@ -51,7 +51,6 @@ def print_ascii_matrix(current_x, current_y, matrix_size, scan_mode):
     for y in range(matrix_size):
         for x in range(matrix_size):
             # Adjust position for zigzag pattern
-            # When y is even, it goes upwards; when y is odd, it goes downwards
             adjusted_y = y if (matrix_size - 1 - x) % 2 == 0 else matrix_size - 1 - y
             is_current_position = x == current_x and adjusted_y == current_y
 
