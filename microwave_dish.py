@@ -63,7 +63,7 @@ class MicrowaveDish:
         adjustment = self.adjust_orientation(float(gps.get_compass_once()), bearing_to_target)
         adjusted_position = motor_controller.get_motor_angle(14) - adjustment
         print(f"adjustment: {adjustment}  adjusted position: {adjusted_position}  current motor position: {motor_controller.get_motor_angle(14)}  Current Compass position: {gps.get_compass_once()}")
-        # motor_controller.move_motor(adjusted_position, 14)  # Adjust azimuth (x-axis)
+        motor_controller.move_motor(adjusted_position, 14)  # Adjust azimuth (x-axis)
         radio_master.send_command(f"ALIGN BEARING: {str(bearing_to_target)}")
 
     
@@ -91,6 +91,8 @@ class MicrowaveDish:
         motor_angle_horizontal = 500
         adjustment_angle = motor_angle_horizontal + elevation_angle
         motor_controller.move_motor(adjustment_angle, 15)  # Adjust elevation (y-axis)
+        radio_master.send_command(f"ALIGN ELEVATION: {str(elevation_angle)}")
+
 
     def align_elevation_slave(self, elevation_angle_master):
         motor_angle_horizontal = 90

@@ -177,16 +177,16 @@ def scan_matrix_columns(repetitions=1, matrix_size=10, step_size=0.1, center_x_a
         print_ascii_matrix(max_x, max_y, matrix_size, 'y')
         return max_position
 
-
+# bearing 137
 if __name__ == '__main__':
-    # move_motor(530, 14)
-    move_motor(360, 14)
-    print(get_motor_angle(14))
+    # print(get_motor_angle(14))
+    # move_motor(534.13, 14)
 
     # Start the scan with custom starting angles and get the results
-    # max_position = scan_matrix_columns(step_size=0.01)
-    # move_motor(max_position[0], 14)
-    # move_motor(max_position[1], 15)
+    max_position = scan_matrix_columns(step_size=1)
+    print(f"max position x: {max_position[0]},   max position y: {max_position[1]}")
+    time.sleep(2)
+    move_motor(max_position[0], 14)
+    move_motor(max_position[1], 15)
 
-    # print(get_motor_angle(15))
     pass
