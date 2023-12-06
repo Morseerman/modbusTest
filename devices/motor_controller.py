@@ -51,14 +51,18 @@ def print_ascii_matrix(current_x, current_y, matrix_size, scan_mode):
     for y in range(matrix_size):
         for x in range(matrix_size):
             # Adjust position for zigzag pattern
-            adjusted_y = y if (matrix_size - 1 - x) % 2 == 0 else matrix_size - 1 - y
-            is_current_position = x == current_x and adjusted_y == current_y
+            # The y-coordinate is adjusted to create the up-and-down movement
+            adjusted_y = y if x % 2 == 0 else matrix_size - 1 - y
+            # The x-coordinate is reversed to start from the right
+            adjusted_x = matrix_size - 1 - x
+            is_current_position = adjusted_x == current_x and adjusted_y == current_y
 
             if is_current_position:
                 print('X', end=' ')
             else:
                 print('-', end=' ')
-        print()  # New line at the end of each row.
+        print()  # New line at the end of each row
+
 
 
 
