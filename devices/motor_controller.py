@@ -48,21 +48,22 @@ def test_small_increments():
         time.sleep(0.2)
 
 def print_ascii_matrix(current_x, current_y, matrix_size, scan_mode):
-    for y in range(matrix_size):
-        for x in range(matrix_size):
+    for y in range(matrix_size - 1, -1, -1):
+        for x in range(matrix_size - 1, -1, -1):
             # Adjust position based on the scanning mode
             if scan_mode == 'y':
-                adjusted_y = y if x % 2 == 0 else matrix_size - 1 - y
-                is_current_position = x == current_x and adjusted_y == current_y
+                adjusted_x = matrix_size - 1 - x if y % 2 == 0 else x
+                is_current_position = y == current_y and adjusted_x == current_x
             elif scan_mode == 'x':
-                adjusted_x = x if y % 2 == 0 else matrix_size - 1 - x
-                is_current_position = adjusted_x == current_x and y == current_y
+                adjusted_y = matrix_size - 1 - y if x % 2 == 0 else y
+                is_current_position = x == current_x and adjusted_y == current_y
 
             if is_current_position:
                 print('X', end=' ')
             else:
                 print('-', end=' ')
         print()  # New line at the end of each row
+
 
 
 def scan_matrix_rows(repetitions=1, matrix_size=10, step_size=0.1, center_x_angle=get_motor_angle(14), center_y_angle=get_motor_angle(15)):
