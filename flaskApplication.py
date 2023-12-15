@@ -65,14 +65,7 @@ def set_inclonometer_angle_data_0():
         print(e)
         return jsonify(status="error", message=str(e))
 
-
-# Start compass reading in a separate thread
-compass_thread = threading.Thread(target=compass.read_compass)
-compass_thread.start()
-
-inclinometer_thread = threading.Thread(target=inclinometer.start_inclinometer)
-inclinometer_thread.start()
-
-#Start Flask application
-app.run(host='0.0.0.0', port=5000)
+def start_web_server():
+    #Start Flask application
+    app.run(host='0.0.0.0', port=5000)
 

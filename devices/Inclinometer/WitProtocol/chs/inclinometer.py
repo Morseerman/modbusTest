@@ -5,10 +5,13 @@
 import time
 import datetime
 import platform
-import struct
-import Inclinometer.WitProtocol.chs.lib.device_model as deviceModel
-from Inclinometer.WitProtocol.chs.lib.data_processor.roles.jy901s_dataProcessor import JY901SDataProcessor
-from Inclinometer.WitProtocol.chs.lib.protocol_resolver.roles.wit_protocol_resolver import WitProtocolResolver
+
+if __name__ == '__main__':
+    pass
+else:
+    import Inclinometer.WitProtocol.chs.lib.device_model as deviceModel
+    from Inclinometer.WitProtocol.chs.lib.data_processor.roles.jy901s_dataProcessor import JY901SDataProcessor
+    from Inclinometer.WitProtocol.chs.lib.protocol_resolver.roles.wit_protocol_resolver import WitProtocolResolver
 
 welcome = """
 Welcome to the Wit-Motion sample program
