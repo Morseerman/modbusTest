@@ -9,7 +9,7 @@ result = {
     }
 
 def get_gps_data():
-    serial_port = '/dev/ttyUSB3'
+    serial_port = '/dev/gps'
     baud_rate = 921600  
 
     try:

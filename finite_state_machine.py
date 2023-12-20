@@ -9,18 +9,22 @@ import microwave_dish
 class MicrowaveDishFSM:
     def __init__(self):
         self.state = 'Start'
+        self.next_state()
 
     def get_state(self):
         return self.state
     
     
     def next_state(self):
+        time.sleep(3)
         if self.state == 'Start':
             self.state = 'Read Devices'
             self.read_devices()
+            self.next_state()
         elif self.state == 'Read Devices':
             self.state = 'Web Server'
             self.web_server()
+            self.next_state()
         elif self.state == 'Web Server':
             self.state = 'Initial Alignment'
             self.initial_alignment()
@@ -45,7 +49,8 @@ class MicrowaveDishFSM:
         inclinometer_thread.start()
 
     def web_server(self):
-        flaskApplication.start_web_server()
+        thread = threading.Thread(target=flaskApplication.start_web_server)
+        thread.start()
 
     def initial_alignment(self):
         microwave = microwave_dish.MicrowaveDish("master")

@@ -31,6 +31,6 @@ else:
     print("Failed to connect to the Modbus device.")
 
 if __name__ == '__main__':
-    write_to_register(0x1802, 2, 15)
+    # write_to_register(0x1802, 2, 15)
     write_to_register(0x79, 8, 15)
     pass

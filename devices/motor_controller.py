@@ -1,8 +1,15 @@
 import math
 import time
-import write
-import read
-from VoltMeter import volt_meter
+try:
+    import write
+    import read
+    from VoltMeter import volt_meter
+except:
+    from devices import write
+    from devices import read
+    from devices.VoltMeter import volt_meter
+
+
 
 
 def degrees_to_steps(degrees):
@@ -181,14 +188,15 @@ def scan_matrix_columns(repetitions=1, matrix_size=10, step_size=0.1, center_x_a
 
 # bearing 137
 if __name__ == '__main__':
-    # print(get_motor_angle(14))
-    # move_motor(534.13, 14)
+    print(get_motor_angle(14))
+    move_motor(180, 14)
+    print(get_motor_angle(14))
 
     # Start the scan with custom starting angles and get the results
-    max_position = scan_matrix_columns(step_size=1)
-    print(f"max position x: {max_position[0]},   max position y: {max_position[1]}")
-    time.sleep(2)
-    move_motor(max_position[0], 14)
-    move_motor(max_position[1], 15)
+    # max_position = scan_matrix_columns(step_size=1)
+    # print(f"max position x: {max_position[0]},   max position y: {max_position[1]}")
+    # time.sleep(2)
+    # move_motor(max_position[0], 14)
+    # move_motor(max_position[1], 15)
 
     pass

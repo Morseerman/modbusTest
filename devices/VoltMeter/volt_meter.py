@@ -1,5 +1,9 @@
 import time
-from VoltMeter.Adafruit_ADS1x15 import ADS1x15
+
+try:
+    from VoltMeter.Adafruit_ADS1x15 import ADS1x15
+except:
+    from devices.VoltMeter.Adafruit_ADS1x15 import ADS1x15
 
 # Create an ADS1115 ADC (16-bit) instance.
 adc = ADS1x15.ADS1115(address=0x49, busnum=1)

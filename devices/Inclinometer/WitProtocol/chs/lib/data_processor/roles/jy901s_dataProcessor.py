@@ -1,5 +1,8 @@
 # coding:UTF-8
-from Inclinometer.WitProtocol.chs.lib.data_processor.interface.i_data_processor import IDataProcessor
+try:
+    from Inclinometer.WitProtocol.chs.lib.data_processor.interface.i_data_processor import IDataProcessor
+except:
+    from devices.Inclinometer.WitProtocol.chs.lib.data_processor.interface.i_data_processor import IDataProcessor
 
 """
     JY901S数据处理器

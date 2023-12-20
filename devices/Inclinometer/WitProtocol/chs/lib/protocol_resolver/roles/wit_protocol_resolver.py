@@ -1,6 +1,9 @@
 # coding:UTF-8
 import time
-from Inclinometer.WitProtocol.chs.lib.protocol_resolver.interface.i_protocol_resolver import IProtocolResolver
+try:
+    from Inclinometer.WitProtocol.chs.lib.protocol_resolver.interface.i_protocol_resolver import IProtocolResolver
+except:
+    from devices.Inclinometer.WitProtocol.chs.lib.protocol_resolver.interface.i_protocol_resolver import IProtocolResolver
 
 """
     维特协议解析器
