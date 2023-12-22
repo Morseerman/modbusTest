@@ -37,8 +37,6 @@ class MicrowaveDishFSM:
             self.state = 'Error'
             
 
-
-
     # Note to self: Will eventually have all devices here! Also might not need to use multi threading
     def read_devices(self):
         # Start compass reading in a separate thread
@@ -74,6 +72,6 @@ class MicrowaveDishFSM:
 
     def fine_alignment(self):
         max_position = motor_controller.scan_matrix_columns()
-        time.sleep(2)
+        time.sleep(2) 
         motor_controller.move_motor(max_position[0], 14)
         motor_controller.move_motor(max_position[1], 15)
