@@ -68,3 +68,10 @@ function fetchInclinometerData() {
 }
 // Fetch the inclinometer data every 2 seconds
 setInterval(fetchInclinometerData, 2000);
+
+// Function to set the motor position using a POST request
+$('#inclonometer0').click(function() {
+    $.post('/set_0', function(data) {
+       
+    });
+});

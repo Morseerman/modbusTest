@@ -1,10 +1,10 @@
 from flask import Flask, request, jsonify, render_template
 from pymodbus.client import ModbusSerialClient
-import motor_controller
-import read
+from devices import motor_controller
+from devices import read
 import threading
-import compass
-import Inclinometer.WitProtocol.chs.inclinometer as inclinometer
+from devices import compass
+import devices.Inclinometer.WitProtocol.chs.inclinometer as inclinometer
 
 app = Flask(__name__)
 app.static_folder = 'static'
@@ -17,13 +17,13 @@ def index():
 
 @app.route('/get_position')
 def get_position():  
-    response_14 = read.read_motor_position(14)
-    response_15 = read.read_motor_position(15)
+    response_14 = motor_controller.get_motor_angle(14)
+    response_15 = motor_controller.get_motor_angle(15)
 
     if response_14 is None or response_15 is None:
         return jsonify(error="Error reading from one or both motors"), 500
 
-    return jsonify(motor_14_position=response_14 / 100, motor_15_position=response_15 / 100)    
+    return jsonify(motor_14_position=response_14, motor_15_position=response_15)    
 
 @app.route('/set_position', methods=['POST'])
 def set_position():
@@ -50,20 +50,22 @@ def get_compass_data():
 @app.route('/get_inclinometer_data')
 def get_inclinometer_data():
     # Assume get_inclinometer_data is a function that returns a dict with x, y, and z values
-    angle_data = inclinometer.get_angle_data()
+    angle_data = inclinometer.get_angle_data_string()
     air_pressure_data = inclinometer.get_pressure()
     print(angle_data + "<------")
     return jsonify(inclinometer_angle_data=angle_data, inclinometer_air_pressure_data=air_pressure_data)
 
+@app.route('/set_0', methods=['POST'])
+def set_inclonometer_angle_data_0():
+    try:
+        inclinometer.set_zero_data()
+        
 
-if __name__ == '__main__':
-    # Start compass reading in a separate thread
-    compass_thread = threading.Thread(target=compass.read_compass)
-    compass_thread.start()
+    except Exception as e:
+        print(e)
+        return jsonify(status="error", message=str(e))
 
-    inclinometer_thread = threading.Thread(target=inclinometer.start_inclinometer)
-    inclinometer_thread.start()
-
+def start_web_server():
     #Start Flask application
     app.run(host='0.0.0.0', port=5000)
 
